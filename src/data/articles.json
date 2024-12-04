@@ -1,0 +1,16 @@
+{
+  "articles": [
+    {
+      "title": "Bästa Skidorterna i Sverige",
+      "description": "Upptäck de mest spektakulära skidresorten landet har att erbjuda."
+    },
+    {
+      "title": "Nybörjarguide: Kom igång med skiing",
+      "description": "Tips och tricks för dig som vill lära dig åka skidor."
+    },
+    {
+      "title": "Säkerhet på skidbacken",
+      "description": "Viktiga säkerhetsråd för en trygg skidupplevelse."
+    }
+  ]
+}

@@ -1,9 +1,35 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
+import { useExperienceStore } from '@/stores/destinationStore'
+import SearchExperience from '@/components/SearchDestination.vue'
+import DestinationCard from '@/components/DestinationCard.vue'
+import ArticleList from '@/components/ArticleList.vue'
 
+const experienceStore = useExperienceStore()
+const { featuredDestinations, articles } = storeToRefs(experienceStore)
 </script>
 
 <template>
-  <div>
-    <h1 class="text-3xl font-bold underline text-red-700">Home</h1>
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">
+      Upplev Sveriges Bästa Skidresor
+    </h1>
+
+    <SearchExperience />
+
+    <section class="mt-12">
+      <h2 class="text-3xl font-semibold text-gray-800 mb-6">Populära Skidresor</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <DestinationCard
+          v-for="destination in featuredDestinations"
+          :key="destination.id"
+          :destination="destination"
+        />
+      </div>
+    </section>
+
+    <section class="mt-12">
+      <ArticleList :articles="articles" />
+    </section>
   </div>
 </template>
