@@ -13,7 +13,7 @@ const router = useRouter()
 const destinationStore = useDestinationStore()
 
 const selectedDays = ref(Number(route.query.days) || props.destination.packages[0].days)
-const totalPersons = ref(Number(route.query.persons) || 1)
+const totalPersons = ref(Number(route.query.persons) || 0)
 const ageCategories = ref<{ [key: string]: number }>({})
 
 const maxPersonsAllowed = computed(
@@ -24,7 +24,7 @@ watch(
   () => route.query,
   (newQuery) => {
     selectedDays.value = Number(newQuery.days) || props.destination.packages[0].days
-    totalPersons.value = Number(newQuery.persons) || 1
+    totalPersons.value = Number(newQuery.persons) || 0
   },
 )
 
@@ -101,9 +101,7 @@ watch([selectedDays, totalPersons], ([newDays, newPersons]) => {
       <div>
         <label class="block text-gray-700 font-bold mb-2">Antal personer</label>
         <input
-          type="number"
           v-model.number="totalPersons"
-          min="1"
           :max="maxPersonsAllowed"
           class="w-full px-3 py-2 border rounded-md"
         />
@@ -127,9 +125,8 @@ watch([selectedDays, totalPersons], ([newDays, newPersons]) => {
             -
           </button>
           <input
-            type="number"
+
             :value="ageCategories[category.name] || 0"
-            min="0"
             :max="totalPersons"
             class="w-16 text-center border-t border-b"
             readonly
