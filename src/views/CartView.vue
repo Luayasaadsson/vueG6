@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useExperienceStore } from '@/stores/destinationStore'
+import { useDestinationStore } from '@/stores/destinationStore'
 import type { CartItem } from '@/types/DestinationTypes'
 
-const experienceStore = useExperienceStore()
-const cartItems = computed(() => experienceStore.cart)
+const destinationStore = useDestinationStore()
+const cartItems = computed(() => destinationStore.cart)
 
 const removeFromCart = (item: CartItem) => {
-  experienceStore.removeFromCart(item.id)
+  destinationStore.removeFromCart(item.id)
 }
 
 const clearCart = () => {
-  experienceStore.clearCart()
+  destinationStore.clearCart()
 }
 </script>
 

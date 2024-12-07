@@ -1,20 +1,31 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import type { SkiDestination } from '@/types/DestinationTypes'
-import { useExperienceStore } from '@/stores/destinationStore'
+import { useDestinationStore } from '@/stores/destinationStore'
 
 const props = defineProps<{
   destination: SkiDestination
 }>()
 
-const experienceStore = useExperienceStore()
+const route = useRoute()
+const router = useRouter()
+const destinationStore = useDestinationStore()
 
-const selectedDays = ref(props.destination.packages[0].days)
-const totalPersons = ref(1)
+const selectedDays = ref(Number(route.query.days) || props.destination.packages[0].days)
+const totalPersons = ref(Number(route.query.persons) || 1)
 const ageCategories = ref<{ [key: string]: number }>({})
 
 const maxPersonsAllowed = computed(
   () => props.destination.packages.find((p) => p.days === selectedDays.value)?.maxPersons || 10,
+)
+
+watch(
+  () => route.query,
+  (newQuery) => {
+    selectedDays.value = Number(newQuery.days) || props.destination.packages[0].days
+    totalPersons.value = Number(newQuery.persons) || 1
+  },
 )
 
 const incrementCategory = (categoryName: string) => {
@@ -46,9 +57,9 @@ const isBookingValid = computed(() => {
   return getTotalSelectedPersons() === totalPersons.value && totalPersons.value > 0
 })
 
-const bookExperience = () => {
+const bookDestination = () => {
   if (isBookingValid.value) {
-    experienceStore.addToCart({
+    destinationStore.addToCart({
       ...props.destination,
       bookingDetails: {
         days: selectedDays.value,
@@ -59,6 +70,16 @@ const bookExperience = () => {
     })
   }
 }
+
+watch([selectedDays, totalPersons], ([newDays, newPersons]) => {
+  router.replace({
+    query: {
+      ...route.query,
+      days: newDays,
+      persons: newPersons,
+    },
+  })
+})
 </script>
 
 <template>
@@ -126,7 +147,7 @@ const bookExperience = () => {
         <span class="text-xl font-bold"> Totalt pris: {{ calculateTotalPrice }} kr </span>
       </div>
       <button
-        @click="bookExperience"
+        @click="bookDestination"
         :disabled="!isBookingValid"
         class="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50"
       >

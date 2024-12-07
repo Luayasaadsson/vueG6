@@ -6,9 +6,9 @@ const props = defineProps<{ destination: SkiDestination }>()
 
 <template>
   <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow">
-    <img 
-      :src="props.destination.imageUrl" 
-      :alt="props.destination.name" 
+    <img
+      :src="props.destination.imageUrl"
+      :alt="props.destination.name"
       class="w-full h-56 object-cover"
     />
     <div class="p-4">
@@ -18,8 +18,8 @@ const props = defineProps<{ destination: SkiDestination }>()
       <p class="text-gray-600 mb-4">
         {{ props.destination.description }}
       </p>
-      <router-link 
-        :to="{ name: 'experience-details', params: { id: props.destination.id } }"
+      <router-link
+        :to="{ name: 'destination-details', params: { id: props.destination.id } }"
         class="block w-full text-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
       >
         Boka upplevelse

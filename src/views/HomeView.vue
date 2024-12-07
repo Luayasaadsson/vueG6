@@ -1,12 +1,18 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useExperienceStore } from '@/stores/destinationStore'
-import SearchExperience from '@/components/SearchDestination.vue'
+import { useDestinationStore } from '@/stores/destinationStore'
+import SearchDestination from '@/components/SearchDestination.vue'
 import DestinationCard from '@/components/DestinationCard.vue'
 import ArticleList from '@/components/ArticleList.vue'
 
-const experienceStore = useExperienceStore()
-const { featuredDestinations, articles } = storeToRefs(experienceStore)
+const destinationStore = useDestinationStore()
+const { featuredDestinations, articles } = storeToRefs(destinationStore)
+
+onMounted(() => {
+  destinationStore.fetchDestinations()
+  destinationStore.fetchArticles()
+})
 </script>
 
 <template>
@@ -15,7 +21,7 @@ const { featuredDestinations, articles } = storeToRefs(experienceStore)
       Upplev Sveriges Bästa Skidresor
     </h1>
 
-    <SearchExperience />
+    <SearchDestination />
 
     <section class="mt-12">
       <h2 class="text-3xl font-semibold text-gray-800 mb-6">Populära Skidresor</h2>

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useExperienceStore } from '@/stores/destinationStore'
+import { useDestinationStore } from '@/stores/destinationStore'
 import type { SkiDestination } from '../types/DestinationTypes'
 
-const experienceStore = useExperienceStore()
+const destinationStore = useDestinationStore()
 const router = useRouter()
 
 const searchQuery = ref('')
@@ -12,14 +12,14 @@ const searchResults = ref<SkiDestination[]>([])
 
 const performSearch = () => {
   if (searchQuery.value.length > 2) {
-    searchResults.value = experienceStore.searchDestinations(searchQuery.value)
+    searchResults.value = destinationStore.searchDestinations(searchQuery.value)
   } else {
     searchResults.value = []
   }
 }
 
 const selectDestination = (destination: SkiDestination) => {
-  router.push(`/experience/${destination.id}`)
+  router.push(`/destination/${destination.id}`)
 }
 </script>
 

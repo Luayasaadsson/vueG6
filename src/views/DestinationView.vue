@@ -1,19 +1,22 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { useExperienceStore } from '@/stores/destinationStore'
+import { useDestinationStore } from '@/stores/destinationStore'
 import type { SkiDestination } from '../types/DestinationTypes'
-import BookingComponent from '@/components/BookingForm.vue'
+import BookingForm from '@/components/BookingForm.vue'
 import DifficultyTags from '@/components/DifficultyTags.vue'
 import PackageList from '@/components/PackageList.vue'
 
 const route = useRoute()
-const experienceStore = useExperienceStore()
+const destinationStore = useDestinationStore()
 const destination = ref<SkiDestination | undefined>(undefined)
 
-onMounted(() => {
+onMounted(async () => {
   const id = Number(route.params.id)
-  destination.value = experienceStore.destinations.find((d: SkiDestination) => d.id === id)
+  if (!destinationStore.destinations.length) {
+    await destinationStore.fetchDestinations()
+  }
+  destination.value = destinationStore.destinations.find((d: SkiDestination) => d.id === id)
 })
 </script>
 
@@ -41,12 +44,11 @@ onMounted(() => {
         </div>
 
         <div class="mb-6">
-          <h2 class="text-xl font-semibold mb-3">Tillgängliga Paket</h2>
           <PackageList :packages="destination.packages" />
         </div>
       </div>
     </div>
-    <BookingComponent :destination="destination" class="mt-8" />
+    <BookingForm :destination="destination" class="mt-8" />
   </div>
   <div v-else class="text-center py-8 text-2xl text-gray-600">Ingen upplevelse hittades</div>
 </template>
