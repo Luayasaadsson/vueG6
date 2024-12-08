@@ -34,6 +34,7 @@ const clearCart = () => {
             <h2 class="text-2xl font-semibold text-gray-800">{{ item.name }}</h2>
             <p class="text-gray-600">Dagar: {{ item.bookingDetails?.days }}</p>
             <p class="text-gray-600">Personer: {{ item.bookingDetails?.totalPersons }}</p>
+            <p class="text-gray-600">Valt datum: {{ item.bookingDetails?.selectedDate }}</p>
             <p class="text-xl font-bold text-gray-800">
               Totalt pris: {{ item.bookingDetails?.totalPrice }} kr
             </p>

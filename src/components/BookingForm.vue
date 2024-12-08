@@ -1,35 +1,59 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import type { SkiDestination } from '@/types/DestinationTypes'
 import { useDestinationStore } from '@/stores/destinationStore'
 
+// Props
 const props = defineProps<{
   destination: SkiDestination
 }>()
 
+// Router och Store
 const route = useRoute()
 const router = useRouter()
 const destinationStore = useDestinationStore()
 
+// Reaktiva variabler
 const selectedDays = ref(Number(route.query.days) || props.destination.packages[0].days)
 const totalPersons = ref(Number(route.query.persons) || 0)
+const selectedDate = ref<string | null>((route.query.date as string) || null)
 const ageCategories = ref<{ [key: string]: number }>({})
 
-const maxPersonsAllowed = computed(
-  () => props.destination.packages.find((p) => p.days === selectedDays.value)?.maxPersons || 10,
-)
+// Computed properties
+const maxPersonsAllowed = computed(() => {
+  const selectedPackage = props.destination.packages.find((p) => p.days === selectedDays.value)
+  return selectedPackage?.maxPersons || 10
+})
 
-watch(
-  () => route.query,
-  (newQuery) => {
-    selectedDays.value = Number(newQuery.days) || props.destination.packages[0].days
-    totalPersons.value = Number(newQuery.persons) || 0
-  },
-)
+const availableDates = computed(() => {
+  const selectedPackage = props.destination.packages.find((pkg) => pkg.days === selectedDays.value)
+  return selectedPackage ? selectedPackage.availableDates : []
+})
 
+const calculateTotalPrice = computed(() => {
+  let total = 0
+  props.destination.ageCategories.forEach((category) => {
+    const count = ageCategories.value[category.name] || 0
+    total += count * category.price
+  })
+  return total
+})
+
+const isBookingValid = computed(() => {
+  return (
+    getTotalSelectedPersons() === totalPersons.value &&
+    totalPersons.value > 0 &&
+    !!selectedDate.value
+  )
+})
+
+// Functions
 const incrementCategory = (categoryName: string) => {
-  if (getTotalSelectedPersons() < totalPersons.value) {
+  if (
+    getTotalSelectedPersons() < totalPersons.value &&
+    totalPersons.value <= maxPersonsAllowed.value
+  ) {
     ageCategories.value[categoryName] = (ageCategories.value[categoryName] || 0) + 1
   }
 }
@@ -44,19 +68,6 @@ const getTotalSelectedPersons = () => {
   return Object.values(ageCategories.value).reduce((a, b) => a + b, 0)
 }
 
-const calculateTotalPrice = computed(() => {
-  let total = 0
-  props.destination.ageCategories.forEach((category) => {
-    const count = ageCategories.value[category.name] || 0
-    total += count * category.price
-  })
-  return total
-})
-
-const isBookingValid = computed(() => {
-  return getTotalSelectedPersons() === totalPersons.value && totalPersons.value > 0
-})
-
 const bookDestination = () => {
   if (isBookingValid.value) {
     destinationStore.addToCart({
@@ -66,19 +77,40 @@ const bookDestination = () => {
         totalPersons: totalPersons.value,
         ageCategories: ageCategories.value,
         totalPrice: calculateTotalPrice.value,
+        selectedDate: selectedDate.value,
       },
     })
+  } else {
+    alert('Vänligen fyll i alla fält och välj ett giltigt datum.')
   }
 }
 
-watch([selectedDays, totalPersons], ([newDays, newPersons]) => {
+// Watchers
+watch(
+  () => route.query,
+  (newQuery) => {
+    selectedDays.value = Number(newQuery.days) || props.destination.packages[0].days
+    totalPersons.value = Number(newQuery.persons) || 0
+    selectedDate.value = (newQuery.date as string) || null
+  },
+)
+
+watch([selectedDays, totalPersons, selectedDate], ([newDays, newPersons, newDate]) => {
   router.replace({
     query: {
       ...route.query,
       days: newDays,
       persons: newPersons,
+      date: newDate,
     },
   })
+})
+
+// Lifecycle hook
+onMounted(() => {
+  if (!selectedDate.value && availableDates.value.length > 0) {
+    selectedDate.value = availableDates.value[0]
+  }
 })
 </script>
 
@@ -87,7 +119,7 @@ watch([selectedDays, totalPersons], ([newDays, newPersons]) => {
     <h2 class="text-2xl font-bold mb-6">Boka din skidupplevelse</h2>
 
     <div class="grid md:grid-cols-2 gap-6">
-      <!-- Dagar -->
+      <!-- Days -->
       <div>
         <label class="block text-gray-700 font-bold mb-2">Antal dagar</label>
         <select v-model="selectedDays" class="w-full px-3 py-2 border rounded-md">
@@ -97,18 +129,30 @@ watch([selectedDays, totalPersons], ([newDays, newPersons]) => {
         </select>
       </div>
 
-      <!-- Totalt antal personer -->
+      <!-- Total persons -->
       <div>
         <label class="block text-gray-700 font-bold mb-2">Antal personer</label>
         <input
+          type="number"
           v-model.number="totalPersons"
+          min="1"
           :max="maxPersonsAllowed"
           class="w-full px-3 py-2 border rounded-md"
         />
       </div>
     </div>
 
-    <!-- Ålderskategorier -->
+    <!-- Select date -->
+    <div class="mt-6">
+      <label class="block text-gray-700 font-bold mb-2">Välj datum</label>
+      <select v-model="selectedDate" class="w-full px-3 py-2 border rounded-md">
+        <option v-for="date in availableDates" :key="date" :value="date">
+          {{ date }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Age categories -->
     <div class="mt-6">
       <h3 class="text-xl font-semibold mb-4">Ålderskategorier</h3>
       <div
@@ -125,9 +169,8 @@ watch([selectedDays, totalPersons], ([newDays, newPersons]) => {
             -
           </button>
           <input
-
+            type="number"
             :value="ageCategories[category.name] || 0"
-            :max="totalPersons"
             class="w-16 text-center border-t border-b"
             readonly
           />
@@ -138,7 +181,7 @@ watch([selectedDays, totalPersons], ([newDays, newPersons]) => {
       </div>
     </div>
 
-    <!-- Pris och Boka-knapp -->
+    <!-- Price and Book button -->
     <div class="mt-6 flex justify-between items-center">
       <div>
         <span class="text-xl font-bold"> Totalt pris: {{ calculateTotalPrice }} kr </span>

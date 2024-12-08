@@ -16,9 +16,16 @@ const props = defineProps<{ packages: SkiPackage[] }>()
       >
         <h3 class="font-bold mb-2">{{ pkg.name }}</h3>
         <p class="mb-2">Antal dagar: {{ pkg.days }}</p>
-        <ul class="list-disc list-inside">
+        <ul>
           <li v-for="(item, index) in pkg.includes" :key="index">
             {{ item }}
+          </li>
+        </ul>
+        <p class="mb-2"><strong>Max personer:</strong> {{ pkg.maxPersons }}</p>
+        <p class="mb-2"><strong>Tillgängliga datum:</strong></p>
+        <ul class="">
+          <li v-for="(date, index) in pkg.availableDates" :key="index">
+            {{ date }}
           </li>
         </ul>
       </div>
