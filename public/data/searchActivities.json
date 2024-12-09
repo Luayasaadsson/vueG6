@@ -1,0 +1,118 @@
+{
+  "activities": [
+    {
+      "id": 101,
+      "name": "Offpist-äventyr i Alperna",
+      "location": "Chamonix, Frankrike",
+      "description": "Utforska de bästa offpist-områdena med professionella guider.",
+      "difficulty": ["Avancerad"],
+      "pricePerPerson": 5000,
+      "imageUrl": "/src/assets/images/img6.jpg",
+      "packages": [
+        {
+          "name": "3 dagars Offpist",
+          "days": 3,
+          "includes": ["Guide", "Liftkort", "Boende"],
+          "maxPersons": 5,
+          "availableDates": ["2024-02-01", "2024-02-15", "2024-03-10"]
+        }
+      ],
+      "ageCategories": [
+        {
+          "name": "Barn",
+          "minAge": 3,
+          "maxAge": 12,
+          "price": 2000
+        },
+        {
+          "name": "Vuxen",
+          "minAge": 13,
+          "maxAge": 64,
+          "price": 5000
+        },
+        {
+          "name": "Senior",
+          "minAge": 65,
+          "maxAge": 99,
+          "price": 4500
+        }
+      ]
+    },
+    {
+      "id": 102,
+      "name": "Snöskoter-äventyr i Lappland",
+      "location": "Kiruna, Sverige",
+      "description": "Upptäck Lapplands vinterlandskap på snöskoter.",
+      "difficulty": ["Medel"],
+      "pricePerPerson": 3500,
+      "imageUrl": "/src/assets/images/img7.jpg",
+      "packages": [
+        {
+          "name": "2 dagars Snöskoter",
+          "days": 2,
+          "includes": ["Snöskoterhyra", "Guide", "Lunch"],
+          "maxPersons": 4,
+          "availableDates": ["2024-01-10", "2024-01-20", "2024-02-05"]
+        }
+      ],
+      "ageCategories": [
+        {
+          "name": "Barn",
+          "minAge": 3,
+          "maxAge": 12,
+          "price": 1500
+        },
+        {
+          "name": "Vuxen",
+          "minAge": 13,
+          "maxAge": 64,
+          "price": 3500
+        },
+        {
+          "name": "Senior",
+          "minAge": 65,
+          "maxAge": 99,
+          "price": 3000
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "name": "Isklättring i Norge",
+      "location": "Rjukan, Norge",
+      "description": "Utmanande isklättring med erfarna instruktörer.",
+      "difficulty": ["Avancerad"],
+      "pricePerPerson": 4500,
+      "imageUrl": "/src/assets/images/img8.jpg",
+      "packages": [
+        {
+          "name": "3 dagars Isklättring",
+          "days": 3,
+          "includes": ["Guide", "Klätterutrustning", "Lunch"],
+          "maxPersons": 3,
+          "availableDates": ["2024-02-05", "2024-03-01"]
+        }
+      ],
+      "ageCategories": [
+        {
+          "name": "Barn",
+          "minAge": 3,
+          "maxAge": 12,
+          "price": 2000
+        },
+        {
+          "name": "Vuxen",
+          "minAge": 13,
+          "maxAge": 64,
+          "price": 4500
+        },
+        {
+          "name": "Senior",
+          "minAge": 65,
+          "maxAge": 99,
+          "price": 4000
+        }
+      ]
+    }
+  ]
+}

@@ -15,44 +15,45 @@ const router = useRouter()
 const destinationStore = useDestinationStore()
 
 // Reaktiva variabler
-const selectedDays = ref(Number(route.query.days) || props.destination.packages[0].days)
-const totalPersons = ref(Number(route.query.persons) || 0)
-const selectedDate = ref<string | null>((route.query.date as string) || null)
+const selectedDays = ref<number>(0)
+const totalPersons = ref<number>(0)
+const selectedDate = ref<string | null>(null)
 const ageCategories = ref<{ [key: string]: number }>({})
 
 // Computed properties
+const availablePackages = computed(() => props.destination.packages || [])
+const availableDates = computed(() => {
+  const selectedPackage = availablePackages.value.find((pkg) => pkg.days === selectedDays.value)
+  return selectedPackage?.availableDates || []
+})
+
+const availableAgeCategories = computed(() => props.destination.ageCategories || [])
+
 const maxPersonsAllowed = computed(() => {
-  const selectedPackage = props.destination.packages.find((p) => p.days === selectedDays.value)
+  const selectedPackage = availablePackages.value.find((pkg) => pkg.days === selectedDays.value)
   return selectedPackage?.maxPersons || 10
 })
 
-const availableDates = computed(() => {
-  const selectedPackage = props.destination.packages.find((pkg) => pkg.days === selectedDays.value)
-  return selectedPackage ? selectedPackage.availableDates : []
-})
-
 const calculateTotalPrice = computed(() => {
-  let total = 0
-  props.destination.ageCategories.forEach((category) => {
+  return availableAgeCategories.value.reduce((total, category) => {
     const count = ageCategories.value[category.name] || 0
-    total += count * category.price
-  })
-  return total
+    return total + count * category.price
+  }, 0)
 })
 
 const isBookingValid = computed(() => {
   return (
-    getTotalSelectedPersons() === totalPersons.value &&
+    selectedDays.value > 0 &&
     totalPersons.value > 0 &&
-    !!selectedDate.value
+    selectedDate.value &&
+    Object.values(ageCategories.value).reduce((sum, count) => sum + count, 0) === totalPersons.value
   )
 })
 
 // Functions
 const incrementCategory = (categoryName: string) => {
   if (
-    getTotalSelectedPersons() < totalPersons.value &&
-    totalPersons.value <= maxPersonsAllowed.value
+    Object.values(ageCategories.value).reduce((sum, count) => sum + count, 0) < totalPersons.value
   ) {
     ageCategories.value[categoryName] = (ageCategories.value[categoryName] || 0) + 1
   }
@@ -62,10 +63,6 @@ const decrementCategory = (categoryName: string) => {
   if (ageCategories.value[categoryName] && ageCategories.value[categoryName] > 0) {
     ageCategories.value[categoryName] -= 1
   }
-}
-
-const getTotalSelectedPersons = () => {
-  return Object.values(ageCategories.value).reduce((a, b) => a + b, 0)
 }
 
 const bookDestination = () => {
@@ -80,8 +77,7 @@ const bookDestination = () => {
         selectedDate: selectedDate.value,
       },
     })
-  } else {
-    alert('Vänligen fyll i alla fält och välj ett giltigt datum.')
+    alert('Bokning tillagd!')
   }
 }
 
@@ -89,10 +85,12 @@ const bookDestination = () => {
 watch(
   () => route.query,
   (newQuery) => {
-    selectedDays.value = Number(newQuery.days) || props.destination.packages[0].days
+    selectedDays.value = Number(newQuery.days) || availablePackages.value[0]?.days || 0
     totalPersons.value = Number(newQuery.persons) || 0
-    selectedDate.value = (newQuery.date as string) || null
+    selectedDate.value = (newQuery.date as string) || availableDates.value[0] || null
+    ageCategories.value = {}
   },
+  { immediate: true },
 )
 
 watch([selectedDays, totalPersons, selectedDate], ([newDays, newPersons, newDate]) => {
@@ -108,6 +106,9 @@ watch([selectedDays, totalPersons, selectedDate], ([newDays, newPersons, newDate
 
 // Lifecycle hook
 onMounted(() => {
+  if (!selectedDays.value && availablePackages.value.length > 0) {
+    selectedDays.value = availablePackages.value[0].days
+  }
   if (!selectedDate.value && availableDates.value.length > 0) {
     selectedDate.value = availableDates.value[0]
   }
@@ -118,13 +119,13 @@ onMounted(() => {
   <div class="booking-container p-6 bg-white rounded-lg shadow-md">
     <h2 class="text-2xl font-bold mb-6">Boka din skidupplevelse</h2>
 
-    <div class="grid md:grid-cols-2 gap-6">
+    <div v-if="availablePackages.length" class="grid md:grid-cols-2 gap-6">
       <!-- Days -->
       <div>
         <label class="block text-gray-700 font-bold mb-2">Antal dagar</label>
         <select v-model="selectedDays" class="w-full px-3 py-2 border rounded-md">
-          <option v-for="pkg in destination.packages" :key="pkg.days" :value="pkg.days">
-            {{ pkg.days }} dagar
+          <option v-for="pkg in availablePackages" :key="pkg.days" :value="pkg.days">
+            {{ pkg.name }} ({{ pkg.days }} dagar)
           </option>
         </select>
       </div>
@@ -143,7 +144,7 @@ onMounted(() => {
     </div>
 
     <!-- Select date -->
-    <div class="mt-6">
+    <div v-if="availableDates.length" class="mt-6">
       <label class="block text-gray-700 font-bold mb-2">Välj datum</label>
       <select v-model="selectedDate" class="w-full px-3 py-2 border rounded-md">
         <option v-for="date in availableDates" :key="date" :value="date">
@@ -152,11 +153,13 @@ onMounted(() => {
       </select>
     </div>
 
+    <div v-else class="mt-6 text-gray-500">Inga datum tillgängliga för detta paket.</div>
+
     <!-- Age categories -->
-    <div class="mt-6">
+    <div v-if="availableAgeCategories.length" class="mt-6">
       <h3 class="text-xl font-semibold mb-4">Ålderskategorier</h3>
       <div
-        v-for="category in destination.ageCategories"
+        v-for="category in availableAgeCategories"
         :key="category.name"
         class="flex items-center justify-between mb-4"
       >
@@ -169,7 +172,6 @@ onMounted(() => {
             -
           </button>
           <input
-            type="number"
             :value="ageCategories[category.name] || 0"
             class="w-16 text-center border-t border-b"
             readonly

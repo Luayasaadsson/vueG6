@@ -6,10 +6,10 @@ export const useDestinationStore = defineStore(
   'destinations',
   () => {
     const destinations = ref<SkiDestination[]>([])
+    const Activities = ref<SkiDestination[]>([])
     const articles = ref<Article[]>([])
     const cart = ref<CartItem[]>([])
 
-    const featuredDestinations = computed(() => destinations.value.slice(0, 3))
     const totalPrice = computed(() =>
       cart.value.reduce((sum, item) => sum + (item.bookingDetails?.totalPrice || 0), 0),
     )
@@ -25,6 +25,19 @@ export const useDestinationStore = defineStore(
         destinations.value = data.destinations
       } catch (error) {
         console.error('Error fetching destinations:', error)
+      }
+    }
+
+    const fetchActivities = async () => {
+      try {
+        const response = await fetch('/data/searchActivities.json')
+        if (!response.ok) {
+          throw new Error('Failed to load  activities data')
+        }
+        const data = await response.json()
+        Activities.value = data.activities
+      } catch (error) {
+        console.error('Error fetching  activities:', error)
       }
     }
 
@@ -58,28 +71,35 @@ export const useDestinationStore = defineStore(
       cart.value = []
     }
 
-    const searchDestinations = (query: string) => {
+    const searchActivities = (query: string, filters: { startDate?: string } = {}) => {
       const trimmedQuery = query.trim().toLowerCase()
-      return destinations.value.filter(
-        (dest) =>
-          dest.name.toLowerCase().includes(trimmedQuery) ||
-          dest.location.toLowerCase().includes(trimmedQuery),
-      )
+
+      return Activities.value.filter((activity) => {
+        const matchesLocation =
+          !trimmedQuery || activity.location.toLowerCase().includes(trimmedQuery)
+
+        const matchesDate =
+          !filters.startDate ||
+          activity.packages.some((pkg) => pkg.availableDates.includes(filters.startDate!))
+
+        return matchesLocation && matchesDate
+      })
     }
 
     return {
       destinations,
       articles,
+      Activities,
       cart,
-      featuredDestinations,
       totalPrice,
       cartItemCount,
       fetchDestinations,
+      fetchActivities,
       fetchArticles,
       addToCart,
       removeFromCart,
       clearCart,
-      searchDestinations,
+      searchActivities,
     }
   },
   {

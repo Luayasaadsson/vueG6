@@ -7,7 +7,7 @@ import DestinationCard from '@/components/DestinationCard.vue'
 import ArticleList from '@/components/ArticleList.vue'
 
 const destinationStore = useDestinationStore()
-const { featuredDestinations, articles } = storeToRefs(destinationStore)
+const { destinations, articles } = storeToRefs(destinationStore)
 
 onMounted(() => {
   destinationStore.fetchDestinations()
@@ -27,7 +27,7 @@ onMounted(() => {
       <h2 class="text-3xl font-semibold text-gray-800 mb-6">Populära Skidresor</h2>
       <div class="grid md:grid-cols-3 gap-6">
         <DestinationCard
-          v-for="destination in featuredDestinations"
+          v-for="destination in destinations"
           :key="destination.id"
           :destination="destination"
         />

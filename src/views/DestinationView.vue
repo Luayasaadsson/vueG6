@@ -13,10 +13,17 @@ const destination = ref<SkiDestination | undefined>(undefined)
 
 onMounted(async () => {
   const id = Number(route.params.id)
+
   if (!destinationStore.destinations.length) {
     await destinationStore.fetchDestinations()
   }
-  destination.value = destinationStore.destinations.find((d: SkiDestination) => d.id === id)
+  if (!destinationStore.Activities.length) {
+    await destinationStore.fetchActivities()
+  }
+
+  destination.value =
+    destinationStore.destinations.find((d: SkiDestination) => d.id === id) ||
+    destinationStore.Activities.find((d: SkiDestination) => d.id === id)
 })
 </script>
 
@@ -38,12 +45,12 @@ onMounted(async () => {
           {{ destination.description }}
         </p>
 
-        <div class="mb-6">
+        <div v-if="destination.difficulty?.length" class="mb-6">
           <h2 class="text-xl font-semibold mb-3">Svårighetsgrad</h2>
           <DifficultyTags :difficulty="destination.difficulty" />
         </div>
 
-        <div class="mb-6">
+        <div v-if="destination.packages?.length" class="mb-6">
           <PackageList :packages="destination.packages" />
         </div>
       </div>

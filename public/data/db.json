@@ -46,44 +46,6 @@
       ]
     },
     {
-      "id": 2,
-      "name": "Sälen Skidcenter",
-      "location": "Sälen, Sverige", 
-      "description": "Familjevänlig skidort med många aktiviteter",
-      "difficulty": ["Nybörjare", "Medel"],
-      "pricePerPerson": 2000,
-      "imageUrl": "/src/assets/images/img2.webp",
-      "packages": [
-        {
-          "name": "Familjepaket",
-          "days": 4,
-          "includes": ["Liftkort", "Boende", "Barnaktiviteter"],
-          "maxPersons": 5, 
-          "availableDates": ["2024-01-25", "2024-02-20", "2024-03-15"] 
-        }
-      ],
-      "ageCategories": [
-        {
-          "name": "Barn",
-          "minAge": 3,
-          "maxAge": 12,
-          "price": 1500
-        },
-        {
-          "name": "Vuxen",
-          "minAge": 13,
-          "maxAge": 64,
-          "price": 2500
-        },
-        {
-          "name": "Senior",
-          "minAge": 65,
-          "maxAge": 99,
-          "price": 2000
-        }
-      ]
-    },
-    {
       "id": 3,
       "name": "Riksgränsen",
       "location": "Riksgränsen, Sverige",
@@ -118,6 +80,134 @@
           "minAge": 65,
           "maxAge": 99,
           "price": 2500
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Hemavan Tärnaby",
+      "location": "Hemavan, Sverige",
+      "description": "En mysig skidort med charmiga pister och spektakulära vyer.",
+      "difficulty": ["Nybörjare", "Medel"],
+      "pricePerPerson": 1800,
+      "imageUrl": "/src/assets/images/img4.jpg",
+      "packages": [
+        {
+          "name": "Lugnt paket",
+          "days": 3,
+          "includes": ["Boende", "Liftkort"],
+          "maxPersons": 4,
+          "availableDates": ["2024-02-05", "2024-03-20"]
+        },
+        {
+          "name": "Fullt paket",
+          "days": 5,
+          "includes": ["Liftkort", "Boende", "Skidlektion"],
+          "maxPersons": 4,
+          "availableDates": ["2024-02-10", "2024-03-25"]
+        }
+      ],
+      "ageCategories": [
+        {
+          "name": "Barn",
+          "minAge": 3,
+          "maxAge": 12,
+          "price": 1200
+        },
+        {
+          "name": "Vuxen",
+          "minAge": 13,
+          "maxAge": 64,
+          "price": 1800
+        },
+        {
+          "name": "Senior",
+          "minAge": 65,
+          "maxAge": 99,
+          "price": 1500
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Trysil Skidort",
+      "location": "Trysil, Norge",
+      "description": "Norges största skidort med fantastiska spår och snögaranti.",
+      "difficulty": ["Nybörjare", "Medel", "Avancerad"],
+      "pricePerPerson": 2200,
+      "imageUrl": "/src/assets/images/img5.jpg",
+      "packages": [
+        {
+          "name": "Weekendpaket",
+          "days": 3,
+          "includes": ["Liftkort", "Boende", "Guidad tur"],
+          "maxPersons": 6,
+          "availableDates": ["2024-01-18", "2024-02-25"]
+        },
+        {
+          "name": "Familjepaket",
+          "days": 5,
+          "includes": ["Liftkort", "Boende", "Barnaktiviteter"],
+          "maxPersons": 6,
+          "availableDates": ["2024-01-22", "2024-03-10"]
+        }
+      ],
+      "ageCategories": [
+        {
+          "name": "Barn",
+          "minAge": 3,
+          "maxAge": 12,
+          "price": 1500
+        },
+        {
+          "name": "Vuxen",
+          "minAge": 13,
+          "maxAge": 64,
+          "price": 2200
+        },
+        {
+          "name": "Senior",
+          "minAge": 65,
+          "maxAge": 99,
+          "price": 2000
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Sälen Skidcenter",
+      "location": "Sälen, Sverige",
+      "description": "Familjevänlig skidort med många aktiviteter",
+      "difficulty": ["Nybörjare", "Medel"],
+      "pricePerPerson": 2000,
+      "imageUrl": "/src/assets/images/img2.webp",
+      "packages": [
+        {
+          "name": "Familjepaket",
+          "days": 4,
+          "includes": ["Liftkort", "Boende", "Barnaktiviteter"],
+          "maxPersons": 5,
+          "availableDates": ["2024-01-25", "2024-02-20", "2024-03-15"]
+        }
+      ],
+      "ageCategories": [
+        {
+          "name": "Barn",
+          "minAge": 3,
+          "maxAge": 12,
+          "price": 1500
+        },
+        {
+          "name": "Vuxen",
+          "minAge": 13,
+          "maxAge": 64,
+          "price": 2500
+        },
+        {
+          "name": "Senior",
+          "minAge": 65,
+          "maxAge": 99,
+          "price": 2000
         }
       ]
     }
