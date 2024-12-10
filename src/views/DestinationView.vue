@@ -57,5 +57,7 @@ onMounted(async () => {
     </div>
     <BookingForm :destination="destination" class="mt-8" />
   </div>
-  <div v-else class="text-center py-8 text-2xl text-gray-600">Ingen upplevelse hittades</div>
+  <div v-else class="flex text-2xl items-center justify-center min-h-screen text-gray-800">
+    Ingen upplevelse hittades.
+  </div>
 </template>
