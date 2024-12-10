@@ -71,17 +71,28 @@ export const useDestinationStore = defineStore(
       cart.value = []
     }
 
-    const searchActivities = (query: string, filters: { startDate?: string } = {}) => {
+    const searchActivities = (query: string, filters: { startDate?: string; endDate?: string } = {}) => {
       const trimmedQuery = query.trim().toLowerCase()
 
       return Activities.value.filter((activity) => {
         const matchesLocation =
           !trimmedQuery || activity.location.toLowerCase().includes(trimmedQuery)
 
-        const matchesDate =
-          !filters.startDate ||
-          activity.packages.some((pkg) => pkg.availableDates.includes(filters.startDate!))
-
+        let matchesDate = true
+        if (filters.startDate && filters.endDate) {
+          const start = new Date(filters.startDate)
+          const end = new Date(filters.endDate)
+          matchesDate = activity.packages.some((pkg) =>
+            pkg.availableDates.some((dateStr) => {
+              const d = new Date(dateStr)
+              return d >= start && d <= end
+            })
+          )
+        } else if (filters.startDate) {
+          matchesDate = activity.packages.some((pkg) => {
+            pkg.availableDates.includes(filters.startDate!)
+          })
+        }
         return matchesLocation && matchesDate
       })
     }

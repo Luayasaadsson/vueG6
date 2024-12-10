@@ -67,8 +67,12 @@ const decrementCategory = (categoryName: string) => {
 
 const bookDestination = () => {
   if (isBookingValid.value) {
-    destinationStore.addToCart({
+    if(isBookingValid.value){
+      const uniqueId = Number(`${props.destination.id}${Date.now()}`)
+
+      destinationStore.addToCart({
       ...props.destination,
+      id: uniqueId,
       bookingDetails: {
         days: selectedDays.value,
         totalPersons: totalPersons.value,
@@ -77,6 +81,7 @@ const bookDestination = () => {
         selectedDate: selectedDate.value,
       },
     })
+    }
     alert('Bokning tillagd!')
   }
 }
