@@ -3,21 +3,48 @@ import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useDestinationStore } from '@/stores/destinationStore'
 import type { SkiDestination } from '../types/DestinationTypes'
+import flatpickr from 'flatpickr'
+import 'flatpickr/dist/flatpickr.min.css'
 
 const router = useRouter()
 const destinationStore = useDestinationStore()
 
 const selectedLocation = ref('')
-const selectedDate = ref('')
+const dateRange = ref<{start: string; end: string}>({ start: '', end: ''})
 const searchResults = ref<SkiDestination[]>([])
 const hasSearched = ref(false)
+
+//Sätter upp flatpickr
+onMounted( () => {
+  destinationStore.fetchActivities()
+
+  const dateInput = document.getElementById('selectedDate') as HTMLInputElement | null;
+  if(dateInput){
+    flatpickr(dateInput,{
+       mode: 'range',
+       dateFormat: 'Y-m-d',
+       minDate: '2020-01-01',
+       onClose: (selectedDates) => {
+        if(selectedDates.length === 2){
+          dateRange.value = {
+            start: selectedDates[0].toISOString().split('T')[0],
+            end: selectedDates[1].toISOString().split('T')[0],
+          };
+        }
+    },
+    });
+  }
+  else{
+    console.error("Hittar inte datumfältet");
+  }
+})
 
 // Hämtar aktiviteter för dropdown-menyn
 const activities = computed(() => destinationStore.Activities)
 
 // Funktion för att trigga sökningen
 const performSearch = () => {
-  if (!selectedLocation.value && !selectedDate.value) {
+  if (!selectedLocation.value && !dateRange.value.start && !dateRange.value.end) {
     hasSearched.value = false
     searchResults.value = []
     return
@@ -26,7 +53,8 @@ const performSearch = () => {
   hasSearched.value = true
 
   searchResults.value = destinationStore.searchActivities(selectedLocation.value, {
-    startDate: selectedDate.value,
+    startDate: dateRange.value.start,
+    endDate: dateRange.value.end,
   })
 }
 
@@ -34,10 +62,6 @@ const performSearch = () => {
 const selectDestination = (destination: SkiDestination) => {
   router.push(`/destination/${destination.id}`)
 }
-
-onMounted(() => {
-  destinationStore.fetchActivities()
-})
 </script>
 
 <template>
@@ -66,9 +90,9 @@ onMounted(() => {
         <label for="selectedDate" class="block text-sm text-gray-500 mb-1"> Ankomstdag </label>
         <div class="relative">
           <input
-            type="date"
-            v-model="selectedDate"
+            type="text"
             id="selectedDate"
+            placeholder="Välj datum"
             class="w-full px-3 py-2 md:py-5 border border-gray-300 rounded-full rounded-l-xl focus:ring-1 focus:outline-none pr-28 md:pr-52 cursor-pointer"
           />
           <button

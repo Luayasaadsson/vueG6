@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
 import { computed } from 'vue'
 import { useDestinationStore } from '@/stores/destinationStore'
 import type { CartItem } from '@/types/DestinationTypes'
 
 const destinationStore = useDestinationStore()
 const cartItems = computed(() => destinationStore.cart)
+const router = useRouter();
 
 const removeFromCart = (item: CartItem) => {
   destinationStore.removeFromCart(item.id)
@@ -12,6 +14,10 @@ const removeFromCart = (item: CartItem) => {
 
 const clearCart = () => {
   destinationStore.clearCart()
+}
+
+const goToCheckout = () => {
+  router.push('/checkout')
 }
 </script>
 
@@ -53,6 +59,12 @@ const clearCart = () => {
           class="px-6 py-3 bg-red-500 text-white rounded-md hover:bg-red-600 text-lg"
         >
           Töm kundvagn
+        </button>
+        <button
+          @click="goToCheckout"
+          class="px-6 py-3 bg-green-500 text-white rounded-md hover:bg-green-600 text-lg"
+        >
+          Gå till kassan
         </button>
       </div>
     </div>
