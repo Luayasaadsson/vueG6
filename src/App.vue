@@ -1,14 +1,22 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import { computed } from 'vue'
+import { useDestinationStore } from '@/stores/destinationStore'
+import { ShoppingCartIcon } from '@heroicons/vue/24/outline'
+
+const destinationStore = useDestinationStore()
+const cartCount = computed(() => destinationStore.cartItemCount)
 </script>
 
 <template>
   <header class="bg-gray-500 text-white p-4">
-    <nav class="container mx-auto flex">
-      <div class="mx-auto">
-        <RouterLink to="/" class="mr-4 hover:underline">Hem</RouterLink>
-        <RouterLink to="/cart" class="hover:underline">Kundvagn</RouterLink>
-      </div>
+    <nav class="container mx-auto flex justify-between">
+      <RouterLink to="/" class="mr-4 hover:underline">Hem</RouterLink>
+
+      <RouterLink to="/cart" class="flex items-center hover:text-gray-300">
+        <ShoppingCartIcon class="h-6 w-6 text-white" />
+        <span class="ml-1">({{ cartCount }})</span>
+      </RouterLink>
     </nav>
   </header>
 
