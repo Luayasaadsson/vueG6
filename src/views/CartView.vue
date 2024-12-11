@@ -6,7 +6,7 @@ import type { CartItem } from '@/types/DestinationTypes'
 
 const destinationStore = useDestinationStore()
 const cartItems = computed(() => destinationStore.cart)
-const router = useRouter();
+const router = useRouter()
 
 const removeFromCart = (item: CartItem) => {
   destinationStore.removeFromCart(item.id)
@@ -48,7 +48,7 @@ const goToCheckout = () => {
         </div>
         <button
           @click="removeFromCart(item)"
-          class="mt-4 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 absolute right-0 top-2"
+          class="mt-4 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 absolute right-0 top-2 mr-3"
         >
           Ta bort
         </button>
@@ -56,7 +56,7 @@ const goToCheckout = () => {
       <div class="text-right">
         <button
           @click="clearCart"
-          class="px-6 py-3 bg-red-500 text-white rounded-md hover:bg-red-600 text-lg"
+          class="px-6 py-3 bg-red-500 text-white rounded-md hover:bg-red-600 text-lg mr-3"
         >
           Töm kundvagn
         </button>
