@@ -4,9 +4,12 @@ export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Comfortaa', 'sans-serif'],
+      },
       colors: {
         light: {
-          background: '#ffffff',
+          background: '#eef2f3',
           text: '#333333',
           primary: '#4a90e2',
         },
@@ -19,4 +22,4 @@ export default {
     },
   },
   plugins: [],
-}
+};

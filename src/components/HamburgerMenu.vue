@@ -71,7 +71,7 @@ onUnmounted(() => {
         @click="toggleMenu"
         to="/"
         class="text-light-text dark:text-dark-text text-[1.2rem] font-bold"
-        >Home</RouterLink
+        >Hem</RouterLink
       >
       <RouterLink
         @click="toggleMenu"
