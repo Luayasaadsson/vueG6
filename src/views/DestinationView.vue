@@ -38,10 +38,10 @@ onMounted(async () => {
         />
       </div>
       <div>
-        <h1 class="text-3xl font-bold text-gray-800 mb-4">
+        <h1 class="text-3xl font-bold text-light-text dark:text-dark-text mb-4">
           {{ destination.name }}
         </h1>
-        <p class="text-gray-600 mb-6">
+        <p class="text-light-text dark:text-dark-text mb-6">
           {{ destination.description }}
         </p>
 
@@ -57,7 +57,10 @@ onMounted(async () => {
     </div>
     <BookingForm :destination="destination" class="mt-8" />
   </div>
-  <div v-else class="flex text-2xl items-center justify-center min-h-screen text-gray-800">
+  <div
+    v-else
+    class="flex text-2xl items-center justify-center min-h-screen text-light-text dark:text-dark-text"
+  >
     Ingen upplevelse hittades.
   </div>
 </template>

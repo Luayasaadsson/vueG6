@@ -10,32 +10,31 @@ const router = useRouter()
 const destinationStore = useDestinationStore()
 
 const selectedLocation = ref('')
-const dateRange = ref<{start: string; end: string}>({ start: '', end: ''})
+const dateRange = ref<{ start: string; end: string }>({ start: '', end: '' })
 const searchResults = ref<SkiDestination[]>([])
 const hasSearched = ref(false)
 
 //Sätter upp flatpickr
-onMounted( () => {
+onMounted(() => {
   destinationStore.fetchActivities()
 
-  const dateInput = document.getElementById('selectedDate') as HTMLInputElement | null;
-  if(dateInput){
-    flatpickr(dateInput,{
-       mode: 'range',
-       dateFormat: 'Y-m-d',
-       minDate: '2020-01-01',
-       onClose: (selectedDates) => {
-        if(selectedDates.length === 2){
+  const dateInput = document.getElementById('selectedDate') as HTMLInputElement | null
+  if (dateInput) {
+    flatpickr(dateInput, {
+      mode: 'range',
+      dateFormat: 'Y-m-d',
+      minDate: '2020-01-01',
+      onClose: (selectedDates) => {
+        if (selectedDates.length === 2) {
           dateRange.value = {
             start: selectedDates[0].toISOString().split('T')[0],
             end: selectedDates[1].toISOString().split('T')[0],
-          };
+          }
         }
-    },
-    });
-  }
-  else{
-    console.error("Hittar inte datumfältet");
+      },
+    })
+  } else {
+    console.error('Hittar inte datumfältet')
   }
 })
 
@@ -76,7 +75,7 @@ const selectDestination = (destination: SkiDestination) => {
         <select
           v-model="selectedLocation"
           id="selectedLocation"
-          class="w-full px-3 py-2 md:py-[23px] border border-gray-300 rounded-full rounded-r-xl focus:ring-1 focus:outline-none cursor-pointer"
+          class="w-full px-3 py-2 md:py-[23px] border border-gray-300 text-gray-500 rounded-full rounded-r-xl focus:ring-1 focus:outline-none cursor-pointer"
         >
           <option value="" disabled selected>Välj destination</option>
           <option v-for="activity in activities" :key="activity.id" :value="activity.location">
@@ -93,7 +92,7 @@ const selectDestination = (destination: SkiDestination) => {
             type="text"
             id="selectedDate"
             placeholder="Välj datum"
-            class="w-full px-3 py-2 md:py-5 border border-gray-300 rounded-full rounded-l-xl focus:ring-1 focus:outline-none pr-28 md:pr-52 cursor-pointer"
+            class="w-full px-3 py-2 md:py-5 border text-gray-500 border-gray-300 rounded-full rounded-l-xl focus:ring-1 focus:outline-none pr-28 md:pr-52 cursor-pointer"
           />
           <button
             @click="performSearch"
@@ -126,6 +125,8 @@ const selectDestination = (destination: SkiDestination) => {
     </div>
 
     <!-- Inga resultat -->
-    <p v-else-if="hasSearched" class="text-center text-gray-500 mt-4">Inga aktiviteter hittades.</p>
+    <p v-else-if="hasSearched" class="text-center text-light-text dark:text-dark-text mt-4">
+      Inga aktiviteter hittades.
+    </p>
   </div>
 </template>

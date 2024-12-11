@@ -6,7 +6,7 @@ import type { CartItem } from '@/types/DestinationTypes'
 
 const destinationStore = useDestinationStore()
 const cartItems = computed(() => destinationStore.cart)
-const router = useRouter();
+const router = useRouter()
 
 const removeFromCart = (item: CartItem) => {
   destinationStore.removeFromCart(item.id)
@@ -23,7 +23,9 @@ const goToCheckout = () => {
 
 <template>
   <div class="container mx-auto px-4 py-8">
-    <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">Kundvagn</h1>
+    <h1 class="text-4xl font-bold text-center text-light-text dark:text-dark-text mb-8">
+      Kundvagn
+    </h1>
     <div v-if="cartItems.length" class="space-y-6">
       <div
         v-for="(item, index) in cartItems"

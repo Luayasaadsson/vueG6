@@ -67,20 +67,20 @@ const decrementCategory = (categoryName: string) => {
 
 const bookDestination = () => {
   if (isBookingValid.value) {
-    if(isBookingValid.value){
+    if (isBookingValid.value) {
       const uniqueId = Number(`${props.destination.id}${Date.now()}`)
 
       destinationStore.addToCart({
-      ...props.destination,
-      id: uniqueId,
-      bookingDetails: {
-        days: selectedDays.value,
-        totalPersons: totalPersons.value,
-        ageCategories: ageCategories.value,
-        totalPrice: calculateTotalPrice.value,
-        selectedDate: selectedDate.value,
-      },
-    })
+        ...props.destination,
+        id: uniqueId,
+        bookingDetails: {
+          days: selectedDays.value,
+          totalPersons: totalPersons.value,
+          ageCategories: ageCategories.value,
+          totalPrice: calculateTotalPrice.value,
+          selectedDate: selectedDate.value,
+        },
+      })
     }
     alert('Bokning tillagd!')
   }
@@ -122,13 +122,13 @@ onMounted(() => {
 
 <template>
   <div class="booking-container p-6 bg-white rounded-lg shadow-md">
-    <h2 class="text-2xl font-bold mb-6">Boka din skidupplevelse</h2>
+    <h2 class="text-2xl font-bold mb-6 text-black">Boka din skidupplevelse</h2>
 
     <div v-if="availablePackages.length" class="grid md:grid-cols-2 gap-6">
       <!-- Days -->
       <div>
         <label class="block text-gray-700 font-bold mb-2">Antal dagar</label>
-        <select v-model="selectedDays" class="w-full px-3 py-2 border rounded-md">
+        <select v-model="selectedDays" class="w-full px-3 py-2 border rounded-md text-gray-500">
           <option v-for="pkg in availablePackages" :key="pkg.days" :value="pkg.days">
             {{ pkg.name }} ({{ pkg.days }} dagar)
           </option>
@@ -143,7 +143,7 @@ onMounted(() => {
           v-model.number="totalPersons"
           min="1"
           :max="maxPersonsAllowed"
-          class="w-full px-3 py-2 border rounded-md"
+          class="w-full px-3 py-2 border rounded-md text-gray-500"
         />
       </div>
     </div>
@@ -151,7 +151,7 @@ onMounted(() => {
     <!-- Select date -->
     <div v-if="availableDates.length" class="mt-6">
       <label class="block text-gray-700 font-bold mb-2">Välj datum</label>
-      <select v-model="selectedDate" class="w-full px-3 py-2 border rounded-md">
+      <select v-model="selectedDate" class="w-full px-3 py-2 border rounded-md text-gray-500">
         <option v-for="date in availableDates" :key="date" :value="date">
           {{ date }}
         </option>
@@ -162,18 +162,21 @@ onMounted(() => {
 
     <!-- Age categories -->
     <div v-if="availableAgeCategories.length" class="mt-6">
-      <h3 class="text-xl font-semibold mb-4">Ålderskategorier</h3>
+      <h3 class="text-xl font-semibold mb-4 text-gray-900">Ålderskategorier</h3>
       <div
         v-for="category in availableAgeCategories"
         :key="category.name"
-        class="flex items-center justify-between mb-4"
+        class="flex items-center justify-between mb-4 text-gray-900"
       >
         <span>
           {{ category.name }}
           ({{ category.minAge }}-{{ category.maxAge }} år)
         </span>
         <div class="flex items-center">
-          <button @click="decrementCategory(category.name)" class="px-3 py-1 bg-gray-200 rounded-l">
+          <button
+            @click="decrementCategory(category.name)"
+            class="px-3 py-1 bg-gray-200 rounded-l text-gray-900"
+          >
             -
           </button>
           <input
@@ -191,7 +194,9 @@ onMounted(() => {
     <!-- Price and Book button -->
     <div class="mt-6 flex justify-between items-center">
       <div>
-        <span class="text-xl font-bold"> Totalt pris: {{ calculateTotalPrice }} kr </span>
+        <span class="text-xl font-bold text-gray-900">
+          Totalt pris: {{ calculateTotalPrice }} kr
+        </span>
       </div>
       <button
         @click="bookDestination"
