@@ -109,7 +109,7 @@ const selectDestination = (destination: SkiDestination) => {
       <div
         v-for="destination in searchResults"
         :key="destination.id"
-        class="p-4 hover:bg-gray-50 transition-colors"
+        class="p-4 transition-colors"
       >
         <h3 class="text-lg font-bold">{{ destination.name }}</h3>
         <p>{{ destination.location }}</p>
