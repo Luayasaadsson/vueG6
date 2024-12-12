@@ -96,7 +96,12 @@ const selectDestination = (destination: SkiDestination) => {
           />
           <button
             @click="performSearch"
-            class="absolute right-0 top-1/2 transform -translate-y-1/2 w-1/3 py-[10px] md:py-[22px] bg-red-600 text-white font-bold rounded-full hover:bg-red-700"
+            class="absolute right-0 top-1/2 transform -translate-y-1/2 w-1/3 py-[10px] md:py-[16px] font-bold rounded-full text-md md:text-2xl"
+            style="
+              background-image: url('https://media.giphy.com/media/OWxrxRHY6afRu/giphy.gif');
+              background-size: cover;
+              background-position: center;
+            "
           >
             Sök
           </button>
@@ -106,11 +111,7 @@ const selectDestination = (destination: SkiDestination) => {
 
     <!-- Sökresultat -->
     <div v-if="searchResults.length" class="mt-1 border rounded-lg rounded-t-sm shadow-md">
-      <div
-        v-for="destination in searchResults"
-        :key="destination.id"
-        class="p-4 hover:bg-gray-50 transition-colors"
-      >
+      <div v-for="destination in searchResults" :key="destination.id" class="p-4 transition-colors">
         <h3 class="text-lg font-bold">{{ destination.name }}</h3>
         <p>{{ destination.location }}</p>
         <p>{{ destination.description }}</p>

@@ -4,7 +4,7 @@
       "id": 101,
       "name": "Offpist-äventyr i Alperna",
       "location": "Chamonix, Frankrike",
-      "description": "Utforska de bästa offpist-områdena med professionella guider.",
+      "description": "Chamonix är en av världens mest ikoniska skidorter, och här får du chansen att utforska några av de bästa offpist-områdena i Alperna. Tillsammans med professionella guider kan du navigera genom orörda snölandskap och njuta av en adrenalinfylld upplevelse som är perfekt för den avancerade skidåkaren.",
       "difficulty": ["Avancerad"],
       "pricePerPerson": 5000,
       "imageUrl": "/src/assets/images/img6.jpg",
@@ -15,6 +15,27 @@
           "includes": ["Guide", "Liftkort", "Boende"],
           "maxPersons": 5,
           "availableDates": ["2024-02-01", "2024-02-15", "2024-03-10"]
+        },
+        {
+          "name": "5 dagars Offpist",
+          "days": 5,
+          "includes": ["Guide", "Liftkort", "Boende", "Transport till områden"],
+          "maxPersons": 4,
+          "availableDates": ["2024-02-10", "2024-03-05", "2024-03-20"]
+        },
+        {
+          "name": "Helgpaket",
+          "days": 2,
+          "includes": ["Guide", "Liftkort"],
+          "maxPersons": 6,
+          "availableDates": ["2024-02-18", "2024-03-01"]
+        },
+        {
+          "name": "Avancerat paket",
+          "days": 7,
+          "includes": ["Guide", "Liftkort", "Boende", "Måltider"],
+          "maxPersons": 3,
+          "availableDates": ["2024-03-10", "2024-03-25", "2024-04-05"]
         }
       ],
       "ageCategories": [
@@ -42,7 +63,7 @@
       "id": 102,
       "name": "Snöskoter-äventyr i Lappland",
       "location": "Kiruna, Sverige",
-      "description": "Upptäck Lapplands vinterlandskap på snöskoter.",
+      "description": "Kiruna erbjuder en unik möjlighet att utforska Lapplands vinterlandskap på snöskoter. Här får du chansen att njuta av vidsträckta snöfält, frusna sjöar och norrsken som målar himlen. Perfekt för dig som vill kombinera äventyr med naturupplevelser.",
       "difficulty": ["Medel"],
       "pricePerPerson": 3500,
       "imageUrl": "/src/assets/images/img7.jpg",
@@ -53,6 +74,27 @@
           "includes": ["Snöskoterhyra", "Guide", "Lunch"],
           "maxPersons": 4,
           "availableDates": ["2024-01-10", "2024-01-20", "2024-02-05"]
+        },
+        {
+          "name": "5 dagars Äventyr",
+          "days": 5,
+          "includes": ["Snöskoterhyra", "Guide", "Måltider", "Boende"],
+          "maxPersons": 3,
+          "availableDates": ["2024-02-15", "2024-03-01"]
+        },
+        {
+          "name": "Familjeäventyr",
+          "days": 3,
+          "includes": ["Snöskoterhyra", "Guide", "Barnvänliga aktiviteter"],
+          "maxPersons": 6,
+          "availableDates": ["2024-01-25", "2024-02-12", "2024-03-18"]
+        },
+        {
+          "name": "Midnattssafari",
+          "days": 4,
+          "includes": ["Snöskoterhyra", "Guide", "Midnattstur under norrsken"],
+          "maxPersons": 4,
+          "availableDates": ["2024-01-28", "2024-02-20", "2024-03-10"]
         }
       ],
       "ageCategories": [
@@ -80,7 +122,7 @@
       "id": 103,
       "name": "Isklättring i Norge",
       "location": "Rjukan, Norge",
-      "description": "Utmanande isklättring med erfarna instruktörer.",
+      "description": "Rjukan är känd som Europas isklättringsmecka och erbjuder enastående möjligheter för både nybörjare och avancerade klättrare. Upplev spänningen att bestiga frusna vattenfall under ledning av erfarna instruktörer.",
       "difficulty": ["Avancerad"],
       "pricePerPerson": 4500,
       "imageUrl": "/src/assets/images/img8.jpg",
@@ -91,6 +133,27 @@
           "includes": ["Guide", "Klätterutrustning", "Lunch"],
           "maxPersons": 3,
           "availableDates": ["2024-02-05", "2024-03-01"]
+        },
+        {
+          "name": "5 dagars Expedition",
+          "days": 5,
+          "includes": ["Guide", "Klätterutrustning", "Boende"],
+          "maxPersons": 4,
+          "availableDates": ["2024-02-15", "2024-03-10", "2024-03-25"]
+        },
+        {
+          "name": "Weekendpaket",
+          "days": 2,
+          "includes": ["Guide", "Grundkurs i isklättring"],
+          "maxPersons": 5,
+          "availableDates": ["2024-01-20", "2024-02-18", "2024-03-05"]
+        },
+        {
+          "name": "Äventyrspaket",
+          "days": 7,
+          "includes": ["Guide", "Klätterutrustning", "Måltider", "Spa-upplevelse"],
+          "maxPersons": 2,
+          "availableDates": ["2024-03-01", "2024-03-20", "2024-04-01"]
         }
       ],
       "ageCategories": [

@@ -17,14 +17,14 @@ onMounted(() => {
 
 <template>
   <div class="container mx-auto px-4 py-8">
-    <h1 class="text-4xl font-bold text-center text-light-text dark:text-dark-text mb-8">
+    <h1 class="text-2xl md:text-4xl font-bold text-center text-light-text dark:text-dark-text mb-8">
       Upplev Sveriges Bästa Skidresor
     </h1>
 
     <SearchDestination />
 
     <section class="mt-12">
-      <h2 class="text-3xl font-semibold text-light-text dark:text-dark-text mb-6">
+      <h2 class="text-2xl md:text-4xl font-semibold text-center text-light-text dark:text-dark-text mb-6">
         Populära Skidresor
       </h2>
       <div class="grid md:grid-cols-3 gap-6">
