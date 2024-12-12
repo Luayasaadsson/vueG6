@@ -18,7 +18,7 @@ const totalPrice = computed(() =>
       
       <div class="bg-white rounded-lg shadow-md p-6 relative">
         <h2 class="text-2xl font-bold mb-4 flex items-center justify-between">
-          <span>1. Logga in med BankID</span>
+          <span class="text-gray-700">1. Logga in med BankID</span>
           <button 
             @click="showBankIdLogin = !showBankIdLogin" 
             class="text-gray-600 hover:text-gray-800"
@@ -61,7 +61,7 @@ const totalPrice = computed(() =>
     </div>
 
     <div class="bg-white rounded-lg shadow-md p-6 md:col-span-1 space-y-4 h-fit">
-      <h2 class="text-xl font-bold mb-4">Din beställning</h2>
+      <h2 class="text-xl font-bold mb-4 text-gray-700">Din beställning</h2>
       <div v-if="cartItems.length" class="space-y-4">
         <div class="max-h-96 overflow-y-auto">
           <div 
@@ -87,7 +87,7 @@ const totalPrice = computed(() =>
             </div>
           </div>
         </div>
-        <div class="flex justify-between pt-4">
+        <div class="flex justify-between pt-4 text-gray-700">
           <span class="text-lg font-bold">Totalt:</span>
           <span class="text-lg font-bold">{{ totalPrice }} kr</span>
         </div>

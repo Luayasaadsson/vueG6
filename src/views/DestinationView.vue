@@ -1,15 +1,22 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useDestinationStore } from '@/stores/destinationStore'
 import type { SkiDestination } from '../types/DestinationTypes'
 import BookingForm from '@/components/BookingForm.vue'
 import DifficultyTags from '@/components/DifficultyTags.vue'
 import PackageList from '@/components/PackageList.vue'
+import ArticleList from '@/components/ArticleList.vue'
 
 const route = useRoute()
 const destinationStore = useDestinationStore()
 const destination = ref<SkiDestination | undefined>(undefined)
+
+const relatedArticles = computed(() => {
+  return destinationStore.articles.filter(
+    (article) => article.relatedDestinationId === destination.value?.id,
+  )
+})
 
 onMounted(async () => {
   const id = Number(route.params.id)
@@ -62,6 +69,19 @@ onMounted(async () => {
 
     <!-- Bokningsformulär -->
     <BookingForm :destination="destination" class="mt-8" />
+
+    <!-- Artikelsektion -->
+    <section v-if="relatedArticles.length" class="mt-12">
+      <h2 class="text-2xl font-semibold text-light-text dark:text-dark-text mb-6">
+        Relaterade Artiklar
+      </h2>
+      <ArticleList :articles="relatedArticles" />
+    </section>
+
+    <!-- Om inga artiklar finns -->
+    <p v-else class="mt-6 text-center text-light-text dark:text-dark-text">
+      Inga artiklar finns tillgängliga för denna destination.
+    </p>
   </div>
 
   <!-- Ingen upplevelse hittades -->
@@ -72,4 +92,3 @@ onMounted(async () => {
     Ingen upplevelse hittades.
   </div>
 </template>
-
