@@ -64,7 +64,7 @@ const closeModal = () => {
         </p>
         <button
           @click="closeModal"
-          class="px-4 py-2 bg-primary text-light-text dark:text-dark-text hover:text-dark-primary rounded-md hover:bg-primary-dark transition"
+          class="relative px-2 py-1 bg-primary text-light-text dark:text-dark-text hover:bg-primary-dark transition overflow-hidden after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-black dark:after:bg-white after:rounded-full hover:after:w-full after:transition-all after:duration-300"
         >
           Stäng
         </button>
