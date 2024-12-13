@@ -55,7 +55,9 @@ const closeModal = () => {
       :isOpen="isModalOpen"
       :title="'Detaljer'"
       :content="modalContent"
+      :showCartButton="false"
       @close="closeModal"
-    />
+    >
+    </TheModal>
   </div>
 </template>

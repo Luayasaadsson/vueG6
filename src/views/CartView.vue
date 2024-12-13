@@ -163,7 +163,7 @@ const editBooking = (item: CartItem) => {
   </div>
   <TheModal
     :isOpen="isModalOpen"
-    :title="'Bekräfta Åtgärd'"
+    :title="'Är du säker?'"
     :content="modalContent"
     @close="closeModal"
   >

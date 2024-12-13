@@ -278,6 +278,7 @@ onMounted(() => {
       :isOpen="isModalOpen"
       :title="'Bokningsdetaljer'"
       :content="modalContent"
+      :showCartButton="true"
       @close="closeModal"
     />
   </div>

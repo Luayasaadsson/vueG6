@@ -3,6 +3,7 @@ defineProps<{
   isOpen: boolean
   title?: string
   content?: string
+  showCartButton?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -33,6 +34,7 @@ const close = () => {
             Stäng
           </button>
           <router-link
+            v-if="showCartButton"
             to="/cart"
             class="relative px-2 py-1 bg-secondary text-light-text dark:text-dark-text hover:bg-secondary-dark transition overflow-hidden after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-black dark:after:bg-white after:rounded-full hover:after:w-full after:transition-all after:duration-300"
           >
