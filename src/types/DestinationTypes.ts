@@ -8,6 +8,7 @@ export interface BookingDetails {
 
 export interface CartItem extends SkiDestination {
   bookingDetails?: BookingDetails
+  originalDestinationId?: number
 }
 
 export interface AgeCategory {

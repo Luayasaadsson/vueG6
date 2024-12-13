@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import type { SkiDestination } from '@/types/DestinationTypes'
+import type { SkiDestination, CartItem } from '@/types/DestinationTypes'
 import { useDestinationStore } from '@/stores/destinationStore'
 
 // Props
@@ -19,6 +19,7 @@ const selectedDays = ref<number>(0)
 const totalPersons = ref<number>(0)
 const selectedDate = ref<string | null>(null)
 const ageCategories = ref<{ [key: string]: number }>({})
+const currentBookingId = ref<number | null>(null)
 
 // Computed properties
 const availablePackages = computed(() => props.destination.packages || [])
@@ -67,12 +68,13 @@ const decrementCategory = (categoryName: string) => {
 
 const bookDestination = () => {
   if (isBookingValid.value) {
-    if (isBookingValid.value) {
+    if (currentBookingId.value) {
+      destinationStore.removeFromCart(currentBookingId.value)
       const uniqueId = Number(`${props.destination.id}${Date.now()}`)
-
       destinationStore.addToCart({
         ...props.destination,
         id: uniqueId,
+        originalDestinationId: props.destination.id,
         bookingDetails: {
           days: selectedDays.value,
           totalPersons: totalPersons.value,
@@ -81,8 +83,23 @@ const bookDestination = () => {
           selectedDate: selectedDate.value,
         },
       })
+      alert('Bokning uppdaterad!')
+    } else {
+      const uniqueId = Number(`${props.destination.id}${Date.now()}`)
+      destinationStore.addToCart({
+        ...props.destination,
+        id: uniqueId,
+        originalDestinationId: props.destination.id,
+        bookingDetails: {
+          days: selectedDays.value,
+          totalPersons: totalPersons.value,
+          ageCategories: ageCategories.value,
+          totalPrice: calculateTotalPrice.value,
+          selectedDate: selectedDate.value,
+        },
+      })
+      alert('Bokning tillagd!')
     }
-    alert('Bokning tillagd!')
   }
 }
 
@@ -117,6 +134,19 @@ onMounted(() => {
   if (!selectedDate.value && availableDates.value.length > 0) {
     selectedDate.value = availableDates.value[0]
   }
+   const queryBookingId = route.query.bookingId ? Number(route.query.bookingId) : null
+ if (queryBookingId) {
+   const existingBooking = destinationStore.cart.find((item: CartItem) => item.id === queryBookingId)
+   if (existingBooking && existingBooking.bookingDetails) {
+     currentBookingId.value = queryBookingId
+     selectedDays.value = existingBooking.bookingDetails.days
+     totalPersons.value = existingBooking.bookingDetails.totalPersons
+     selectedDate.value = existingBooking.bookingDetails.selectedDate
+     ageCategories.value = { ...existingBooking.bookingDetails.ageCategories }   }
+
+      console.log('Laddar befintlig bokning:', existingBooking)
+      console.log('Laddade ageCategories:', ageCategories.value)
+ }
 })
 </script>
 

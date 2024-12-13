@@ -2,7 +2,7 @@
 import { useRouter } from 'vue-router'
 import { computed } from 'vue'
 import { useDestinationStore } from '@/stores/destinationStore'
-import { TrashIcon, ShoppingBagIcon, GlobeAltIcon } from '@heroicons/vue/24/outline'
+import { TrashIcon, ShoppingBagIcon, GlobeAltIcon, PencilSquareIcon } from '@heroicons/vue/24/outline'
 import type { CartItem } from '@/types/DestinationTypes'
 
 const destinationStore = useDestinationStore()
@@ -24,6 +24,23 @@ const goToCheckout = () => {
 const totalPrice = computed(() =>
   cartItems.value.reduce((sum, item) => sum + (item.bookingDetails?.totalPrice || 0), 0)
 );
+
+const editBooking = (item: CartItem) => {
+  if (item.originalDestinationId && item.bookingDetails) {
+    router.push({
+      name: 'destination-details',
+      params: { id: item.originalDestinationId.toString() },
+      query: {
+        days: item.bookingDetails.days.toString(),
+        persons: item.bookingDetails.totalPersons.toString(),
+        date: item.bookingDetails.selectedDate || '',
+        bookingId: item.id.toString()
+      }
+    })
+  } else {
+    console.error("Kan inte ändra bokning då originalDestinationId eller bookingDetails saknas.")
+  }
+}
 </script>
 
 <template>
@@ -45,7 +62,7 @@ const totalPrice = computed(() =>
         <div class="flex items-center space-x-6">
           <img
             :src="item.imageUrl"
-            alt="item.name"
+            :alt="item.name"
             class="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-lg"
           />
           <div class="flex-1">
@@ -55,6 +72,14 @@ const totalPrice = computed(() =>
             <p class="text-gray-600">Valt datum: <span class="font-medium">{{ item.bookingDetails?.selectedDate }}</span></p>
             <p class="text-lg font-bold text-gray-900 mt-2">Pris: {{ item.bookingDetails?.totalPrice }} kr</p>
           </div>
+
+          <button
+            @click="editBooking(item)"
+            class="p-3 focus:outline-none focus:ring-2 focus:ring-gray-300 transition rounded-lg"
+          >
+            <PencilSquareIcon class="w-8 h-8 text-gray-900 hover:text-blue-500" />
+          </button>
+
           <button
             @click="removeFromCart(item)"
             class="p-3 focus:outline-none focus:ring-2 focus:ring-gray-300 transition rounded-lg"
