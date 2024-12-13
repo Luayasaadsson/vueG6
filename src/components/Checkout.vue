@@ -13,10 +13,8 @@ const totalPrice = computed(() =>
 </script>
 
 <template>
-  <!-- Huvudcontainern med offwhite bakgrund i ljust läge och dov mörk bakgrund i mörkt läge -->
   <div class="checkout-page container mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-8 bg-[#eef2f3] dark:bg-[#2e3133] transition-colors duration-300">
     <div class="md:col-span-2 space-y-8">
-      <!-- Box 1 -->
       <div class="rounded-lg p-6 border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#3a3d3f] transition-colors duration-300">
         <h2 class="text-2xl font-bold mb-4 flex items-center justify-between text-gray-900 dark:text-gray-100">
           <span>1. Logga in med BankID</span>
@@ -32,7 +30,6 @@ const totalPrice = computed(() =>
             <p>
               För att fortsätta med köpet, var god logga in med BankID.
             </p>
-            <!-- QR KOD -->
             <div class="flex justify-left">
               <img src="@/assets/images/qr.png" alt="BankID QR Code" class="w-48 h-40 object-cover rounded-lg" />
             </div>
@@ -46,7 +43,6 @@ const totalPrice = computed(() =>
         </transition>
       </div>
 
-      <!-- Box 2 -->
       <div class="rounded-lg p-6 border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#3a3d3f] transition-colors duration-300">
         <h2 class="text-xl font-semibold flex items-center justify-between text-gray-500 dark:text-gray-400 cursor-not-allowed">
           <span>2. Betalningsmetod</span>
@@ -54,7 +50,6 @@ const totalPrice = computed(() =>
         </h2>
       </div>
 
-      <!-- Box 3 -->
       <div class="rounded-lg p-6 border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#3a3d3f] transition-colors duration-300">
         <h2 class="text-xl font-semibold flex items-center justify-between text-gray-500 dark:text-gray-400 cursor-not-allowed">
           <span>3. Bekräfta & Betala</span>
@@ -63,7 +58,6 @@ const totalPrice = computed(() =>
       </div>
     </div>
 
-    <!-- Sidopanel -->
     <div class="rounded-lg p-6 border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#3a3d3f] transition-colors duration-300 md:col-span-1 space-y-4 h-fit">
       <h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">Din beställning</h2>
       <div v-if="cartItems.length" class="space-y-4">
