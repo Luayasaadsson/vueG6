@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import type { SkiDestination } from '@/types/DestinationTypes'
+import type { SkiDestination, CartItem } from '@/types/DestinationTypes'
 import { useDestinationStore } from '@/stores/destinationStore'
 
 // Props
@@ -19,6 +19,7 @@ const selectedDays = ref<number>(0)
 const totalPersons = ref<number>(0)
 const selectedDate = ref<string | null>(null)
 const ageCategories = ref<{ [key: string]: number }>({})
+const currentBookingId = ref<number | null>(null)
 
 // Computed properties
 const availablePackages = computed(() => props.destination.packages || [])
@@ -67,22 +68,38 @@ const decrementCategory = (categoryName: string) => {
 
 const bookDestination = () => {
   if (isBookingValid.value) {
-    if(isBookingValid.value){
+    if (currentBookingId.value) {
+      destinationStore.removeFromCart(currentBookingId.value)
       const uniqueId = Number(`${props.destination.id}${Date.now()}`)
-
       destinationStore.addToCart({
-      ...props.destination,
-      id: uniqueId,
-      bookingDetails: {
-        days: selectedDays.value,
-        totalPersons: totalPersons.value,
-        ageCategories: ageCategories.value,
-        totalPrice: calculateTotalPrice.value,
-        selectedDate: selectedDate.value,
-      },
-    })
+        ...props.destination,
+        id: uniqueId,
+        originalDestinationId: props.destination.id,
+        bookingDetails: {
+          days: selectedDays.value,
+          totalPersons: totalPersons.value,
+          ageCategories: ageCategories.value,
+          totalPrice: calculateTotalPrice.value,
+          selectedDate: selectedDate.value,
+        },
+      })
+      alert('Bokning uppdaterad!')
+    } else {
+      const uniqueId = Number(`${props.destination.id}${Date.now()}`)
+      destinationStore.addToCart({
+        ...props.destination,
+        id: uniqueId,
+        originalDestinationId: props.destination.id,
+        bookingDetails: {
+          days: selectedDays.value,
+          totalPersons: totalPersons.value,
+          ageCategories: ageCategories.value,
+          totalPrice: calculateTotalPrice.value,
+          selectedDate: selectedDate.value,
+        },
+      })
+      alert('Bokning tillagd!')
     }
-    alert('Bokning tillagd!')
   }
 }
 
@@ -117,18 +134,40 @@ onMounted(() => {
   if (!selectedDate.value && availableDates.value.length > 0) {
     selectedDate.value = availableDates.value[0]
   }
+   const queryBookingId = route.query.bookingId ? Number(route.query.bookingId) : null
+ if (queryBookingId) {
+   const existingBooking = destinationStore.cart.find((item: CartItem) => item.id === queryBookingId)
+   if (existingBooking && existingBooking.bookingDetails) {
+     currentBookingId.value = queryBookingId
+     selectedDays.value = existingBooking.bookingDetails.days
+     totalPersons.value = existingBooking.bookingDetails.totalPersons
+     selectedDate.value = existingBooking.bookingDetails.selectedDate
+     ageCategories.value = { ...existingBooking.bookingDetails.ageCategories }   }
+
+      console.log('Laddar befintlig bokning:', existingBooking)
+      console.log('Laddade ageCategories:', ageCategories.value)
+ }
 })
 </script>
 
 <template>
-  <div class="booking-container p-6 bg-white rounded-lg shadow-md">
-    <h2 class="text-2xl font-bold mb-6">Boka din skidupplevelse</h2>
+  <div
+    class="booking-container p-8 bg-gradient-to-r from-white to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-lg shadow-lg"
+  >
+    <h2 class="text-3xl font-extrabold mb-6 text-gray-800 dark:text-white text-center">
+      Boka din skidupplevelse
+    </h2>
 
-    <div v-if="availablePackages.length" class="grid md:grid-cols-2 gap-6">
+    <div v-if="availablePackages.length" class="grid md:grid-cols-2 gap-8">
       <!-- Days -->
       <div>
-        <label class="block text-gray-700 font-bold mb-2">Antal dagar</label>
-        <select v-model="selectedDays" class="w-full px-3 py-2 border rounded-md">
+        <label class="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">
+          Antal dagar
+        </label>
+        <select
+          v-model="selectedDays"
+          class="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-700 dark:border-gray-600 dark:text-gray-200 dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        >
           <option v-for="pkg in availablePackages" :key="pkg.days" :value="pkg.days">
             {{ pkg.name }} ({{ pkg.days }} dagar)
           </option>
@@ -137,51 +176,67 @@ onMounted(() => {
 
       <!-- Total persons -->
       <div>
-        <label class="block text-gray-700 font-bold mb-2">Antal personer</label>
+        <label class="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">
+          Antal personer
+        </label>
         <input
           type="number"
           v-model.number="totalPersons"
           min="1"
           :max="maxPersonsAllowed"
-          class="w-full px-3 py-2 border rounded-md"
+          class="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-700 dark:border-gray-600 dark:text-gray-200 dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none"
         />
       </div>
     </div>
 
     <!-- Select date -->
-    <div v-if="availableDates.length" class="mt-6">
-      <label class="block text-gray-700 font-bold mb-2">Välj datum</label>
-      <select v-model="selectedDate" class="w-full px-3 py-2 border rounded-md">
+    <div v-if="availableDates.length" class="mt-8">
+      <label class="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">
+        Välj datum
+      </label>
+      <select
+        v-model="selectedDate"
+        class="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-700 dark:border-gray-600 dark:text-gray-200 dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+      >
         <option v-for="date in availableDates" :key="date" :value="date">
           {{ date }}
         </option>
       </select>
     </div>
 
-    <div v-else class="mt-6 text-gray-500">Inga datum tillgängliga för detta paket.</div>
+    <div v-else class="mt-8 text-gray-500 dark:text-gray-400">
+      Inga datum tillgängliga för detta paket.
+    </div>
 
     <!-- Age categories -->
-    <div v-if="availableAgeCategories.length" class="mt-6">
-      <h3 class="text-xl font-semibold mb-4">Ålderskategorier</h3>
+    <div v-if="availableAgeCategories.length" class="mt-8">
+      <h3 class="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Ålderskategorier</h3>
       <div
         v-for="category in availableAgeCategories"
         :key="category.name"
         class="flex items-center justify-between mb-4"
       >
-        <span>
+        <span class="text-gray-700 dark:text-gray-300">
           {{ category.name }}
           ({{ category.minAge }}-{{ category.maxAge }} år)
         </span>
         <div class="flex items-center">
-          <button @click="decrementCategory(category.name)" class="px-3 py-1 bg-gray-200 rounded-l">
+          <button
+            @click="decrementCategory(category.name)"
+            class="px-4 py-2 bg-gray-200 rounded-full text-gray-900 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+          >
             -
           </button>
           <input
             :value="ageCategories[category.name] || 0"
-            class="w-16 text-center border-t border-b"
+            class="w-10 text-center text-gray-900 dark:text-gray-100 bg-transparent focus:outline-none"
             readonly
           />
-          <button @click="incrementCategory(category.name)" class="px-3 py-1 bg-gray-200 rounded-r">
+
+          <button
+            @click="incrementCategory(category.name)"
+            class="px-4 py-2 bg-gray-200 rounded-full text-gray-900 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+          >
             +
           </button>
         </div>
@@ -189,14 +244,16 @@ onMounted(() => {
     </div>
 
     <!-- Price and Book button -->
-    <div class="mt-6 flex justify-between items-center">
+    <div class="mt-10 flex flex-col md:flex-row items-center justify-between">
       <div>
-        <span class="text-xl font-bold"> Totalt pris: {{ calculateTotalPrice }} kr </span>
+        <span class="text-2xl font-extrabold text-gray-800 dark:text-white">
+          Totalt pris: {{ calculateTotalPrice }} kr
+        </span>
       </div>
       <button
         @click="bookDestination"
         :disabled="!isBookingValid"
-        class="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50"
+        class="mt-6 md:mt-0 px-8 py-3 bg-blue-500 text-white rounded-md font-bold hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
       >
         Boka nu
       </button>

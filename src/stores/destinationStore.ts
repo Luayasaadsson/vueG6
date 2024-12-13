@@ -63,6 +63,13 @@ export const useDestinationStore = defineStore(
       }
     }
 
+    const updateCart = (id: number, updated: Partial<CartItem>) => {
+      const index = cart.value.findIndex(item => item.id === id)
+      if (index !== -1) {
+        cart.value[index] = { ...cart.value[index], ...updated }
+      }
+    }
+
     const removeFromCart = (destinationId: number) => {
       cart.value = cart.value.filter((item) => item.id !== destinationId)
     }
@@ -108,6 +115,7 @@ export const useDestinationStore = defineStore(
       fetchActivities,
       fetchArticles,
       addToCart,
+      updateCart,
       removeFromCart,
       clearCart,
       searchActivities,

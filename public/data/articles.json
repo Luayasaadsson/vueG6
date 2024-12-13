@@ -2,15 +2,27 @@
   "articles": [
     {
       "title": "Bästa Skidorterna i Sverige",
-      "description": "Upptäck de mest spektakulära skidresorten landet har att erbjuda."
+      "description": "Upptäck de mest spektakulära skidresorten landet har att erbjuda, från Åre till Sälen.",
+      "image": "/src/assets/images/img10.webp",
+      "details": "Åre är känt för sitt avancerade skidåkning och byliv. Sälen är perfekt för familjer och nybörjare.",
+      "category": "Destinationer",
+      "relatedDestinationId": 1
     },
     {
       "title": "Nybörjarguide: Kom igång med skiing",
-      "description": "Tips och tricks för dig som vill lära dig åka skidor."
+      "description": "Tips och tricks för dig som vill lära dig åka skidor.",
+      "image": "/src/assets/images/img11.webp",
+      "details": "Börja med rätt utrustning och boka lektioner. Sälen erbjuder paket för nybörjare med hyrutrustning och instruktörer.",
+      "category": "Guider",
+      "relatedDestinationId": 2
     },
     {
       "title": "Säkerhet på skidbacken",
-      "description": "Viktiga säkerhetsråd för en trygg skidupplevelse."
+      "description": "Viktiga säkerhetsråd för en trygg skidupplevelse.",
+      "image": "/src/assets/images/img12.webp",
+      "details": "Använd hjälm och skidglasögon. Följ skyltar och åk aldrig offpist utan guide.",
+      "category": "Säkerhet",
+      "relatedDestinationId": 3
     }
   ]
 }

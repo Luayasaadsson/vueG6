@@ -8,6 +8,7 @@ export interface BookingDetails {
 
 export interface CartItem extends SkiDestination {
   bookingDetails?: BookingDetails
+  originalDestinationId?: number
 }
 
 export interface AgeCategory {
@@ -54,4 +55,8 @@ export interface SkiDestination {
 export interface Article {
   title: string
   description: string
+  image: string
+  details: string
+  category: string
+  relatedDestinationId: number
 }
