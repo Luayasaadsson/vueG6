@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useDestinationStore } from '@/stores/destinationStore'
+import TheModal from '@/components/TheModal.vue'
 
 const destinationStore = useDestinationStore()
 const articles = destinationStore.articles
@@ -50,25 +51,11 @@ const closeModal = () => {
       </article>
     </div>
 
-    <!-- Modal -->
-    <div
-      v-if="isModalOpen"
-      class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
-    >
-      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-11/12 md:w-1/2">
-        <h3 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-          Detaljer
-        </h3>
-        <p class="text-gray-700 dark:text-gray-300 mb-6">
-          {{ modalContent }}
-        </p>
-        <button
-          @click="closeModal"
-          class="relative px-2 py-1 bg-primary text-light-text dark:text-dark-text hover:bg-primary-dark transition overflow-hidden after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-black dark:after:bg-white after:rounded-full hover:after:w-full after:transition-all after:duration-300"
-        >
-          Stäng
-        </button>
-      </div>
-    </div>
+    <TheModal
+      :isOpen="isModalOpen"
+      :title="'Detaljer'"
+      :content="modalContent"
+      @close="closeModal"
+    />
   </div>
 </template>

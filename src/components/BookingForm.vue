@@ -3,6 +3,7 @@ import { ref, computed, watch, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import type { SkiDestination, CartItem } from '@/types/DestinationTypes'
 import { useDestinationStore } from '@/stores/destinationStore'
+import TheModal from '@/components/TheModal.vue'
 
 // Props
 const props = defineProps<{
@@ -20,6 +21,8 @@ const totalPersons = ref<number>(0)
 const selectedDate = ref<string | null>(null)
 const ageCategories = ref<{ [key: string]: number }>({})
 const currentBookingId = ref<number | null>(null)
+const isModalOpen = ref(false)
+const modalContent = ref('')
 
 // Computed properties
 const availablePackages = computed(() => props.destination.packages || [])
@@ -66,6 +69,15 @@ const decrementCategory = (categoryName: string) => {
   }
 }
 
+const showModal = (content: string) => {
+  modalContent.value = content
+  isModalOpen.value = true
+}
+
+const closeModal = () => {
+  isModalOpen.value = false
+}
+
 const bookDestination = () => {
   if (isBookingValid.value) {
     if (currentBookingId.value) {
@@ -83,7 +95,7 @@ const bookDestination = () => {
           selectedDate: selectedDate.value,
         },
       })
-      alert('Bokning uppdaterad!')
+      showModal('Bokning uppdaterad!')
     } else {
       const uniqueId = Number(`${props.destination.id}${Date.now()}`)
       destinationStore.addToCart({
@@ -98,7 +110,7 @@ const bookDestination = () => {
           selectedDate: selectedDate.value,
         },
       })
-      alert('Bokning tillagd!')
+      showModal('Bokning tillagd!')
     }
   }
 }
@@ -134,19 +146,22 @@ onMounted(() => {
   if (!selectedDate.value && availableDates.value.length > 0) {
     selectedDate.value = availableDates.value[0]
   }
-   const queryBookingId = route.query.bookingId ? Number(route.query.bookingId) : null
- if (queryBookingId) {
-   const existingBooking = destinationStore.cart.find((item: CartItem) => item.id === queryBookingId)
-   if (existingBooking && existingBooking.bookingDetails) {
-     currentBookingId.value = queryBookingId
-     selectedDays.value = existingBooking.bookingDetails.days
-     totalPersons.value = existingBooking.bookingDetails.totalPersons
-     selectedDate.value = existingBooking.bookingDetails.selectedDate
-     ageCategories.value = { ...existingBooking.bookingDetails.ageCategories }   }
+  const queryBookingId = route.query.bookingId ? Number(route.query.bookingId) : null
+  if (queryBookingId) {
+    const existingBooking = destinationStore.cart.find(
+      (item: CartItem) => item.id === queryBookingId,
+    )
+    if (existingBooking && existingBooking.bookingDetails) {
+      currentBookingId.value = queryBookingId
+      selectedDays.value = existingBooking.bookingDetails.days
+      totalPersons.value = existingBooking.bookingDetails.totalPersons
+      selectedDate.value = existingBooking.bookingDetails.selectedDate
+      ageCategories.value = { ...existingBooking.bookingDetails.ageCategories }
+    }
 
-      console.log('Laddar befintlig bokning:', existingBooking)
-      console.log('Laddade ageCategories:', ageCategories.value)
- }
+    console.log('Laddar befintlig bokning:', existingBooking)
+    console.log('Laddade ageCategories:', ageCategories.value)
+  }
 })
 </script>
 
@@ -258,5 +273,12 @@ onMounted(() => {
         Boka nu
       </button>
     </div>
+
+    <TheModal
+      :isOpen="isModalOpen"
+      :title="'Bokningsdetaljer'"
+      :content="modalContent"
+      @close="closeModal"
+    />
   </div>
 </template>
