@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
-import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import ThemeToggleButton from './ThemeToggleButton.vue'
-import { useDestinationStore } from '@/stores/destinationStore'
-import { ShoppingCartIcon } from '@heroicons/vue/24/outline'
+import CartIcon from './CartIcon.vue'
 
 const isMenuOpen = ref(false)
 
@@ -24,9 +23,6 @@ const closeMenu = (event: MouseEvent) => {
     isMenuOpen.value = false
   }
 }
-
-const destinationStore = useDestinationStore()
-const cartCount = computed(() => destinationStore.cartItemCount)
 
 onMounted(() => {
   document.addEventListener('click', closeMenu)
@@ -73,14 +69,10 @@ onUnmounted(() => {
         class="text-light-text dark:text-dark-text text-[1.2rem] font-bold"
         >Hem</RouterLink
       >
-      <RouterLink
-        @click="toggleMenu"
-        to="/cart"
-        class="flex items-center text-light-text dark:text-dark-text text-[1.2rem] font-bold"
-      >
-        <ShoppingCartIcon class="h-6 w-6 mr-2" />
-        ({{ cartCount }})
+      <RouterLink @click="toggleMenu" to="/cart" class="flex items-center">
+        <CartIcon />
       </RouterLink>
+
       <ThemeToggleButton @click="toggleMenu" class="text-light-text dark:text-dark-text" />
     </nav>
   </div>
