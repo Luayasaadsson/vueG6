@@ -2,6 +2,7 @@
 import { watch } from 'vue'
 import { RouterView } from 'vue-router'
 import TheHeader from './components/TheHeader.vue'
+import TheFooter from './components/TheFooter.vue'
 import { useThemeStore } from './stores/themeStore'
 
 const themeStore = useThemeStore()
@@ -27,5 +28,6 @@ watch(
     <main>
       <RouterView />
     </main>
+    <TheFooter />
   </div>
 </template>
