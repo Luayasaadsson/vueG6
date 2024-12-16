@@ -5,6 +5,7 @@ import { useDestinationStore } from '@/stores/destinationStore'
 import type { SkiDestination } from '../types/DestinationTypes'
 import flatpickr from 'flatpickr'
 import 'flatpickr/dist/flatpickr.min.css'
+import CustomDropdown from './CustomDropdown.vue'
 
 const router = useRouter()
 const destinationStore = useDestinationStore()
@@ -69,19 +70,13 @@ const selectDestination = (destination: SkiDestination) => {
     <div class="flex items-center bg-white p-4 rounded-xl rounded-b-sm shadow-md flex-wrap">
       <!-- Välj destination -->
       <div class="flex-1 min-w-[200px]">
-        <label for="selectedLocation" class="block text-sm text-gray-500 mb-1">
-          Var vill du bo?
-        </label>
-        <select
-          v-model="selectedLocation"
-          id="selectedLocation"
-          class="w-full px-3 py-2 md:py-[23px] border border-gray-300 text-gray-500 rounded-full rounded-r-xl focus:ring-1 focus:outline-none cursor-pointer"
-        >
-          <option value="" disabled selected>Välj destination</option>
-          <option v-for="activity in activities" :key="activity.id" :value="activity.location">
-            {{ activity.location }}
-          </option>
-        </select>
+        <p class="block text-sm text-gray-500 mb-1">Var vill du bo?</p>
+        <CustomDropdown
+          :options="activities.map((a) => ({ value: a.location, label: a.location }))"
+          :selected="selectedLocation"
+          placeholder="Välj destination"
+          @update:selected="(value) => (selectedLocation = String(value))"
+        />
       </div>
 
       <!-- Välj datum -->

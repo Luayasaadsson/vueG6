@@ -4,6 +4,7 @@ import { useRouter, useRoute } from 'vue-router'
 import type { SkiDestination, CartItem } from '@/types/DestinationTypes'
 import { useDestinationStore } from '@/stores/destinationStore'
 import TheModal from '@/components/TheModal.vue'
+import CustomDropdown from './CustomDropdown.vue'
 
 // Props
 const props = defineProps<{
@@ -27,8 +28,11 @@ const modalContent = ref('')
 // Computed properties
 const availablePackages = computed(() => props.destination.packages || [])
 const availableDates = computed(() => {
-  const selectedPackage = availablePackages.value.find((pkg) => pkg.days === selectedDays.value)
-  return selectedPackage?.availableDates || []
+  if (selectedDays.value > 0) {
+    const selectedPackage = availablePackages.value.find((pkg) => pkg.days === selectedDays.value)
+    return selectedPackage?.availableDates || []
+  }
+  return availablePackages.value.flatMap((pkg) => pkg.availableDates) || []
 })
 
 const availableAgeCategories = computed(() => props.destination.ageCategories || [])
@@ -119,9 +123,9 @@ const bookDestination = () => {
 watch(
   () => route.query,
   (newQuery) => {
-    selectedDays.value = Number(newQuery.days) || availablePackages.value[0]?.days || 0
-    totalPersons.value = Number(newQuery.persons) || 0
-    selectedDate.value = (newQuery.date as string) || availableDates.value[0] || null
+    selectedDays.value = newQuery.days ? Number(newQuery.days) : 0
+    totalPersons.value = newQuery.persons ? Number(newQuery.persons) : 0
+    selectedDate.value = newQuery.date ? (newQuery.date as string) : null
     ageCategories.value = {}
   },
   { immediate: true },
@@ -140,12 +144,6 @@ watch([selectedDays, totalPersons, selectedDate], ([newDays, newPersons, newDate
 
 // Lifecycle hook
 onMounted(() => {
-  if (!selectedDays.value && availablePackages.value.length > 0) {
-    selectedDays.value = availablePackages.value[0].days
-  }
-  if (!selectedDate.value && availableDates.value.length > 0) {
-    selectedDate.value = availableDates.value[0]
-  }
   const queryBookingId = route.query.bookingId ? Number(route.query.bookingId) : null
   if (queryBookingId) {
     const existingBooking = destinationStore.cart.find(
@@ -179,14 +177,19 @@ onMounted(() => {
         <label class="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">
           Antal dagar
         </label>
-        <select
-          v-model="selectedDays"
-          class="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-700 dark:border-gray-600 dark:text-gray-200 dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-        >
-          <option v-for="pkg in availablePackages" :key="pkg.days" :value="pkg.days">
-            {{ pkg.name }} ({{ pkg.days }} dagar)
-          </option>
-        </select>
+
+        <CustomDropdown
+          :options="
+            availablePackages.map((pkg) => ({
+              value: pkg.days,
+              label: `${pkg.name} (${pkg.days} dagar)`,
+            }))
+          "
+          :selected="selectedDays"
+          placeholder="Välj antal dagar"
+          customClass="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-700 dark:border-gray-600 dark:text-gray-200 dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          @update:selected="(value) => (selectedDays = Number(value))"
+        />
       </div>
 
       <!-- Total persons -->
@@ -194,12 +197,17 @@ onMounted(() => {
         <label class="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">
           Antal personer
         </label>
-        <input
-          type="number"
-          v-model.number="totalPersons"
-          min="1"
-          :max="maxPersonsAllowed"
-          class="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-700 dark:border-gray-600 dark:text-gray-200 dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        <CustomDropdown
+          :options="
+            Array.from({ length: maxPersonsAllowed }, (_, i) => ({
+              value: i + 1,
+              label: `${i + 1} person${i > 0 ? 'er' : ''}`,
+            }))
+          "
+          :selected="totalPersons"
+          placeholder="Välj antal personer"
+          customClass="w-full px-4 py-3 border-gray-300 text-gray-700 dark:border-gray-600 dark:text-gray-200 dark:bg-gray-800 rounded-md focus:ring-2 focus:ring-blue-500"
+          @update:selected="(value) => (totalPersons = Number(value))"
         />
       </div>
     </div>
@@ -207,16 +215,15 @@ onMounted(() => {
     <!-- Select date -->
     <div v-if="availableDates.length" class="mt-8">
       <label class="block text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">
-        Välj datum
+        Välj ankomstdag
       </label>
-      <select
-        v-model="selectedDate"
-        class="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-700 dark:border-gray-600 dark:text-gray-200 dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-      >
-        <option v-for="date in availableDates" :key="date" :value="date">
-          {{ date }}
-        </option>
-      </select>
+      <CustomDropdown
+        :options="availableDates.map((date) => ({ value: date, label: date }))"
+        :selected="selectedDate"
+        placeholder="Välj datum"
+        customClass="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-700 dark:border-gray-600 dark:text-gray-200 dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        @update:selected="(value) => (selectedDate = String(value))"
+      />
     </div>
 
     <div v-else class="mt-8 text-gray-500 dark:text-gray-400">

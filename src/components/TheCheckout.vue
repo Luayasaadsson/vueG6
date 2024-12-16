@@ -58,10 +58,10 @@ const totalPrice = computed(() =>
       </div>
     </div>
 
-    <div class="rounded-lg p-6 border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#3a3d3f] transition-colors duration-300 md:col-span-1 space-y-4 h-fit">
+    <div class="rounded-lg p-2 border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#3a3d3f] transition-colors duration-300 md:col-span-1 space-y-4 h-fit">
       <h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">Din beställning</h2>
       <div v-if="cartItems.length" class="space-y-4">
-        <div class="max-h-96 overflow-y-auto">
+        <div class="max-h-[450px] overflow-y-auto pr-4">
           <div 
             v-for="(item, index) in cartItems" 
             :key="index" 
