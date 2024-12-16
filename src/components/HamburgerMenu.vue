@@ -57,7 +57,7 @@ onUnmounted(() => {
 
     <!-- Mobilmeny -->
     <nav
-      class="fixed top-0 right-0 w-full h-full flex flex-col justify-center items-center gap-6 text-white p-8 z-[100] transform transition-transform duration-300 ease-in-out md:hidden"
+      class="fixed top-[4rem] right-0 w-full h-full flex flex-col justify-center items-center gap-6 text-white p-8 z-[100] transform transition-transform duration-300 ease-in-out md:hidden"
       :class="[
         isMenuOpen ? 'translate-x-0' : 'translate-x-full',
         'bg-light-background dark:bg-dark-background',

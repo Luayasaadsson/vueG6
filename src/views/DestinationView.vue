@@ -7,6 +7,7 @@ import BookingForm from '@/components/BookingForm.vue'
 import DifficultyTags from '@/components/DifficultyTags.vue'
 import PackageList from '@/components/PackageList.vue'
 import ArticleList from '@/components/ArticleList.vue'
+import BackButton from '@/components/BackButton.vue'
 
 const route = useRoute()
 const destinationStore = useDestinationStore()
@@ -36,6 +37,8 @@ onMounted(async () => {
 
 <template>
   <div v-if="destination" class="container mx-auto px-4 py-8">
+    <BackButton />
+
     <div class="grid md:grid-cols-2 gap-8">
       <!-- Bild och svårighetsgrad -->
       <div>

@@ -10,6 +10,7 @@ import {
 } from '@heroicons/vue/24/outline'
 import type { CartItem } from '@/types/DestinationTypes'
 import TheModal from '@/components/TheModal.vue'
+import BackButton from '@/components/BackButton.vue'
 
 const destinationStore = useDestinationStore()
 const cartItems = computed(() => destinationStore.cart)
@@ -71,6 +72,7 @@ const editBooking = (item: CartItem) => {
   <div
     class="container mx-auto px-4 py-8 bg-white dark:bg-gray-900 min-h-screen transition-colors duration-300"
   >
+    <BackButton />
     <h1
       class="text-4xl font-extrabold text-center mb-8 flex items-center justify-center space-x-2 text-gray-900 dark:text-gray-100"
     >
