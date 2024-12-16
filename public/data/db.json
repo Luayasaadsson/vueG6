@@ -7,7 +7,7 @@
       "description": "Sveriges mest kända skidort med internationell standard. Åre erbjuder en perfekt kombination av avancerade pister, nybörjarvänliga backar och ett pulserande byliv. Här finns en mängd restauranger, afterski-aktiviteter och fantastiska utsikter över fjällandskapet. Ett måste för skidälskare som söker variation och högklassiga upplevelser.",
       "difficulty": ["Nybörjare", "Medel", "Avancerad"],
       "pricePerPerson": 2500,
-      "imageUrl": "/src/assets/images/img.webp",
+      "imageUrl": "/images/img.webp",
       "packages": [
         {
           "name": "Weekend Ski",
@@ -66,7 +66,7 @@
       "description": "Familjevänlig skidort med många aktiviteter för både stora och små. Sälen är en av Sveriges mest populära skidorter och erbjuder ett stort urval av pister och snöparker. Med barnvänliga backar, moderna liftsystem och en rad olika aktiviteter utanför skidåkningen är Sälen ett utmärkt val för familjer och nybörjare.",
       "difficulty": ["Nybörjare", "Medel"],
       "pricePerPerson": 2000,
-      "imageUrl": "/src/assets/images/img2.webp",
+      "imageUrl": "/images/img2.webp",
       "packages": [
         {
           "name": "Familjepaket",
@@ -125,7 +125,7 @@
       "description": "Nordligaste skidorten i Sverige med fantastisk utsikt över fjällandskapet. Här kan du uppleva midnattssolen på vårkanten, vilket gör skidåkning till en unik upplevelse. Riksgränsen är också känt för sitt offpist-åkande och spektakulära vyer, vilket gör det till en favoritdestination för äventyrare och erfarna skidåkare.",
       "difficulty": ["Medel", "Avancerad"],
       "pricePerPerson": 3000,
-      "imageUrl": "/src/assets/images/img3.jpg",
+      "imageUrl": "/images/img3.jpg",
       "packages": [
         {
           "name": "Äventyrspaket",
@@ -184,7 +184,7 @@
       "description": "En mysig skidort med charmiga pister och spektakulära vyer. Perfekt för familjer och nybörjare som vill kombinera skidåkning med lugn och avkoppling. Hemavan Tärnaby erbjuder en avslappnad atmosfär med bekvämt boende och möjlighet till naturnära upplevelser i ett snötäckt fjällandskap.",
       "difficulty": ["Nybörjare", "Medel"],
       "pricePerPerson": 1800,
-      "imageUrl": "/src/assets/images/img4.jpg",
+      "imageUrl": "/images/img4.jpg",
       "packages": [
         {
           "name": "Lugnt paket",
@@ -243,7 +243,7 @@
       "description": "Norges största skidort med fantastiska spår och snögaranti. Trysil erbjuder ett omfattande skidområde med modern infrastruktur, perfekt för både familjer och avancerade skidåkare. Dessutom finns det en mängd aktiviteter utanför backarna, såsom restauranger, spa och barnvänliga aktiviteter, vilket gör det till en komplett vinterupplevelse.",
       "difficulty": ["Nybörjare", "Medel", "Avancerad"],
       "pricePerPerson": 2200,
-      "imageUrl": "/src/assets/images/img5.jpg",
+      "imageUrl": "/images/img5.jpg",
       "packages": [
         {
           "name": "Weekendpaket",
@@ -302,7 +302,7 @@
       "description": "Lofsdalen erbjuder en härlig kombination av fjällidyll och moderna skidfaciliteter. Med sina breda och välpreparerade pister är detta en perfekt destination för familjer och skidåkare på alla nivåer. Här finns också längdskidspår, snöskoterleder och vacker natur som ger en minnesvärd upplevelse.",
       "difficulty": ["Nybörjare", "Medel"],
       "pricePerPerson": 1900,
-      "imageUrl": "/src/assets/images/img9.jpg",
+      "imageUrl": "/images/img9.jpg",
       "packages": [
         {
           "name": "Vinteräventyr",

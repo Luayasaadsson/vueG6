@@ -7,7 +7,7 @@
       "description": "Chamonix är en av världens mest ikoniska skidorter, och här får du chansen att utforska några av de bästa offpist-områdena i Alperna. Tillsammans med professionella guider kan du navigera genom orörda snölandskap och njuta av en adrenalinfylld upplevelse som är perfekt för den avancerade skidåkaren.",
       "difficulty": ["Avancerad"],
       "pricePerPerson": 5000,
-      "imageUrl": "/src/assets/images/img6.jpg",
+      "imageUrl": "/images/img6.jpg",
       "packages": [
         {
           "name": "3 dagars Offpist",
@@ -66,7 +66,7 @@
       "description": "Kiruna erbjuder en unik möjlighet att utforska Lapplands vinterlandskap på snöskoter. Här får du chansen att njuta av vidsträckta snöfält, frusna sjöar och norrsken som målar himlen. Perfekt för dig som vill kombinera äventyr med naturupplevelser.",
       "difficulty": ["Medel"],
       "pricePerPerson": 3500,
-      "imageUrl": "/src/assets/images/img7.jpg",
+      "imageUrl": "/images/img7.jpg",
       "packages": [
         {
           "name": "2 dagars Snöskoter",
@@ -125,7 +125,7 @@
       "description": "Rjukan är känd som Europas isklättringsmecka och erbjuder enastående möjligheter för både nybörjare och avancerade klättrare. Upplev spänningen att bestiga frusna vattenfall under ledning av erfarna instruktörer.",
       "difficulty": ["Avancerad"],
       "pricePerPerson": 4500,
-      "imageUrl": "/src/assets/images/img8.jpg",
+      "imageUrl": "/images/img8.jpg",
       "packages": [
         {
           "name": "3 dagars Isklättring",

@@ -31,7 +31,7 @@ const totalPrice = computed(() =>
               För att fortsätta med köpet, var god logga in med BankID.
             </p>
             <div class="flex justify-left">
-              <img src="@/assets/images/qr.png" alt="BankID QR Code" class="w-48 h-40 object-cover rounded-lg" />
+              <img src="/images/qr.png" alt="BankID QR Code" class="w-48 h-40 object-cover rounded-lg" />
             </div>
             <button 
               class="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"

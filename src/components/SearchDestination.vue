@@ -93,7 +93,7 @@ const selectDestination = (destination: SkiDestination) => {
             @click="performSearch"
             class="absolute right-0 top-1/2 transform -translate-y-1/2 w-1/3 py-[10px] md:py-[16px] font-bold rounded-full text-md md:text-2xl"
             style="
-              background-image: url('/src/assets/images/gif.webp');
+              background-image: url('images/gif.webp');
               background-size: cover;
               background-position: center;
             "
