@@ -86,36 +86,21 @@ const bookDestination = () => {
   if (isBookingValid.value) {
     if (currentBookingId.value) {
       destinationStore.removeFromCart(currentBookingId.value)
-      const uniqueId = Number(`${props.destination.id}${Date.now()}`)
-      destinationStore.addToCart({
-        ...props.destination,
-        id: uniqueId,
-        originalDestinationId: props.destination.id,
-        bookingDetails: {
-          days: selectedDays.value,
-          totalPersons: totalPersons.value,
-          ageCategories: ageCategories.value,
-          totalPrice: calculateTotalPrice.value,
-          selectedDate: selectedDate.value,
-        },
-      })
-      showModal('Bokning uppdaterad!')
-    } else {
-      const uniqueId = Number(`${props.destination.id}${Date.now()}`)
-      destinationStore.addToCart({
-        ...props.destination,
-        id: uniqueId,
-        originalDestinationId: props.destination.id,
-        bookingDetails: {
-          days: selectedDays.value,
-          totalPersons: totalPersons.value,
-          ageCategories: ageCategories.value,
-          totalPrice: calculateTotalPrice.value,
-          selectedDate: selectedDate.value,
-        },
-      })
-      showModal('Bokning tillagd!')
     }
+    const uniqueId = Number(`${props.destination.id}${Date.now()}`)
+    destinationStore.addToCart({
+      ...props.destination,
+      id: uniqueId,
+      originalDestinationId: props.destination.id,
+      bookingDetails: {
+        days: selectedDays.value,
+        totalPersons: totalPersons.value,
+        ageCategories: ageCategories.value,
+        totalPrice: calculateTotalPrice.value,
+        selectedDate: selectedDate.value,
+      },
+    })
+    showModal(currentBookingId.value ? 'Bokning uppdaterad!' : 'Bokning tillagd!')
   }
 }
 
