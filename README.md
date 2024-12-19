@@ -95,31 +95,31 @@ SkiEase is a Vue 3 application designed to help users book ski vacations with ea
 
 1. **HomeView.vue**
 
-- **Displays popular destinations and articles.**
+- _Displays popular destinations and articles._
 
-- **Integrates the SearchDestination and DestinationCard components.**
+- _Integrates the SearchDestination and DestinationCard components._
 
 2. **DestinationView.vue**
 
-- **Provides detailed information about a destination.**
+- _Provides detailed information about a destination._
 
-- **Includes difficulty tags, available packages, and a booking form.**
+- _Includes difficulty tags, available packages, and a booking form._
 
-- **Uses BookingForm, PackageList, and ArticleList components.**
+- _Uses BookingForm, PackageList, and ArticleList components._
 
 3. **BookingForm.vue**
 
-- **Allows users to configure their bookings.**
+- _Allows users to configure their bookings._
 
-- **Validates input fields such as days, persons, and dates.**
+- _Validates input fields such as days, persons, and dates._
 
-- **Integrates with Pinia for cart management.**
+- _Integrates with Pinia for cart management._
 
 4. **destinationStore.ts**
 
-- **Centralized state management for destinations, articles, activities, and cart.**
+- _Centralized state management for destinations, articles, activities, and cart._
 
-- **Implements features such as fetching data, adding to cart, and calculating total price.**
+- _Implements features such as fetching data, adding to cart, and calculating total price._
 
 ## Installation
 
